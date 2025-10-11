@@ -2,6 +2,7 @@
 package com.game_list.gamelist.entity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import java.time.Instant;
 import java.util.List;
 
 @Entity
@@ -28,10 +29,9 @@ public class Game {
     )
     private List<Genre> genres;
             
-            
     public Game(){}
 
-    public Game(Long id, String name, String summary, String coverUrl, Double rating) {
+    public Game(Long id, String name, String summary, String coverUrl, Double rating, Instant createdAt) {
         this.id = id;
         this.name = name;
         this.summary = summary;
@@ -77,14 +77,6 @@ public class Game {
 
     public void setRating(Double rating) {
         this.rating = rating;
-    }
-    
-    public List<Genre> getGenres(){
-        return genres;
-    }
-    
-    public void setGenres(List<Genre> genres){
-        this.genres = genres;
     }
     
 }
