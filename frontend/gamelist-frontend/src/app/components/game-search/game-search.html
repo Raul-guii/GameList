@@ -1,0 +1,12 @@
+<form>
+    <input [formControl]="searchControl" placeholder="Buscar Jogo" />
+</form>
+
+<ul *ngIf="results.length">
+    <li *ngFor="let g of results">
+        <img *ngIf="g.coverUrl" [src]="g.coverUrl" width="50" />
+        {{ g.name }} - {{ g.rating || 'N/A '}}
+    </li>
+</ul>    
+
+

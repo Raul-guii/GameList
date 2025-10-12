@@ -1,0 +1,23 @@
+<div *ngIf="loading">Carregando...</div>
+
+<div class="grid">
+  <div class="card" *ngFor="let g of games">
+    <a [routerLink]="['/games', g.id]">
+      <img *ngIf="g.coverUrl" [src]="g.coverUrl" alt="{{g.name}}" class="thumb" />
+      <div class="title">{{ g.name }}</div>
+      <div class="rating">{{ g.rating ?? '—' }}</div>
+    </a>
+  </div>
+</div>
+
+<nav class="pagination">
+  <button (click)="prev()" [disabled]="page === 1">«</button>
+
+  <button *ngFor="let p of [page-2, page-1, page, page+1, page+2]; let i = index"
+          (click)="loadPage(p)"
+          [disabled]="p < 1">
+    {{ p }}
+  </button>
+
+  <button (click)="next()">»</button>
+</nav>

@@ -1,0 +1,12 @@
+<div *ngIf="loading">Carregando...</div>
+
+<div *ngIf="game">
+  <h1>{{ game.name }}</h1>
+  <img *ngIf="game.coverUrl" [src]="game.coverUrl" />
+  <p>Rating: {{ game.rating ?? '—' }}</p>
+  <p *ngIf="game.summary">{{ game.summary }}</p>
+
+  <button (click)="toggleFavorite()">
+    {{ isFavorite() ? 'Remover favorito' : 'Favoritar' }}
+  </button>
+</div>
