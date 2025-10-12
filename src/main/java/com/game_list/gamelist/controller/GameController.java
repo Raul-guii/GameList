@@ -46,11 +46,11 @@ public class GameController {
         return gameService.getGamesByGenre(genres);
     }
     
-    @PostMapping("/sync")
+    /*@PostMapping("/sync")
     public ResponseEntity<String> syncGames(){
         gameService.syncGamesFromApi();
         return ResponseEntity.ok("Sincronização concluída!");
-    }
+    }*/
     
     /*@GetMapping("/debug/raw")
     public ResponseEntity<String> debugRaw() {

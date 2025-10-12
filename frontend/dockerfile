@@ -1,0 +1,25 @@
+# Estágio 1: Build (compilação do Angular com Node)
+FROM node:20-alpine AS angular-build  
+
+WORKDIR /app
+
+# 1. Copia todo o conteúdo da pasta 'frontend/' para '/app'
+COPY . . 
+
+# 2. MUDA o diretório de trabalho para onde o package.json realmente está
+WORKDIR /app/gamelist-frontend
+
+# 3. Instala as dependências
+RUN npm install
+
+# 4. Faz o build de produção 
+RUN npm run build -- --output-path=./dist/gamelist-frontend --configuration=production
+
+# --- Estágio 2: Runtime (servir o resultado com Nginx) ---
+FROM nginx:alpine
+
+# Copia os arquivos de build do Angular para o servidor Nginx
+COPY --from=angular-build /app/gamelist-frontend/dist/gamelist-frontend /usr/share/nginx/html
+
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

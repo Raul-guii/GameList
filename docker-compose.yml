@@ -1,28 +1,65 @@
 version: "3.8"
 
 services:
+  # 1. SERVIÇO: BACKEND (Spring Boot)
+  backend:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    container_name: gamelist-backend
+    ports:
+      - "8080:8080" # Porta para acessar o Backend
+    depends_on:
+      # O backend depende do DB para iniciar
+      db:
+        condition: service_healthy 
+    # Variáveis de Ambiente para a conexão com o MySQL
+    environment:
+      # *** CONEXÃO MySQL ***: O host é o nome do serviço 'db'
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/gamelist?useSSL=false&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: raul_guilherme
+      SPRING_DATASOURCE_PASSWORD: 312689840
+      SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.MySQLDialect
+    restart: unless-stopped
+  
+  # 2. SERVIÇO: FRONTEND (Angular / Nginx)
+  frontend:
+    build: 
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: gamelist-frontend
+    ports:
+      # Mapeia a porta 4200 local para a porta 80 do Nginx
+      - "4200:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # 3. SERVIÇO: BANCO DE DADOS (MySQL) - CONFIGURAÇÃO MANTIDA
   db:
     image: mysql:8.0
     container_name: gamelist-db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: 312689840      
-      MYSQL_DATABASE: gamelist                    
-      MYSQL_USER: raul_guilherme                  
-      MYSQL_PASSWORD: 312689840            
+      MYSQL_ROOT_PASSWORD: 312689840
+      MYSQL_DATABASE: gamelist
+      MYSQL_USER: raul_guilherme
+      MYSQL_PASSWORD: 312689840
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro  
+      - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "--silent"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"] # Ajuste no healthcheck para MySQL 8.0
       interval: 10s
       timeout: 5s
       retries: 5
-
+  
+  # 4. SERVIÇO: PHPMYADMIN - CONFIGURAÇÃO MANTIDA
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
+    container_name: gamelist-phpmyadmin
     depends_on:
       - db
     environment:

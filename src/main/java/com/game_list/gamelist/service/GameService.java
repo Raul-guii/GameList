@@ -51,7 +51,7 @@ public class GameService {
         return igdbClient.getGamesByGenres(genreIds);
     }
     
-    public void syncGamesFromApi(){
+   /* public void syncGamesFromApi(){
         String body = "fields id,name,cover.url,genres;\n" +
                       "limit 50;";
         
@@ -77,6 +77,6 @@ public class GameService {
         }
         System.out.println("Sync concluído! " + gamesFromApi.size() + " jogos sincronizados!");
         
-    }
+    }*/
 
 }

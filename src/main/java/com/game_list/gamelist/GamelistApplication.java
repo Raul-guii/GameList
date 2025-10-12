@@ -13,11 +13,11 @@ public class GamelistApplication {
 		SpringApplication.run(GamelistApplication.class, args);
 	}
         
-        @Bean
+        /*@Bean
         CommandLineRunner run(GameService gameService){
             return args -> {
                 gameService.syncGamesFromApi();
                 
             };
-        }
+        }*/
 }
