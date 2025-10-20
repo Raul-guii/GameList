@@ -1,0 +1,18 @@
+<div class="list-root">
+  <div *ngIf="loading" class="loading">Carregando...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <div *ngIf="!loading && games.length === 0" class="empty">Nenhum jogo encontrado.</div>
+
+  <ul *ngIf="!loading && games.length" class="games">
+    <li *ngFor="let g of games" class="game-item">
+      <img *ngIf="g.coverUrl || g.cover?.url" [src]="g.coverUrl ?? g.cover?.url" alt="{{ g.name }}" class="cover">
+      <div class="meta">
+        <strong class="title">{{ g.name }}</strong>
+        <div class="rating">Rating: {{ g.rating ?? '—' }}</div>
+        <p class="summary">{{ g.summary }}</p>
+        <a [routerLink]="['/games', g.id]" class="details-link">Ver detalhes</a>
+      </div>
+    </li>
+  </ul>
+</div>

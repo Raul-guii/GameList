@@ -1,0 +1,25 @@
+/* game-detail.component.css */
+.detail-root { margin-top: 1rem; }
+
+.game-card {
+  display: flex;
+  gap: 1.25rem;
+  align-items: flex-start;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.cover-large {
+  width: 200px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.info { flex: 1; }
+
+.game-title { margin-top: 0; margin-bottom: 0.5rem; }
+
+.summary { color: #333; white-space: pre-wrap; margin-top: 0.5rem; }

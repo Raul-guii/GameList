@@ -1,0 +1,18 @@
+
+main {
+  padding: 1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin-bottom: 0.25rem;
+  font-size: 1.8rem;
+}
+
+p {
+  color: #444;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}

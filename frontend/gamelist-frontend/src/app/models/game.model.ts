@@ -1,10 +1,14 @@
+export interface GameDTOCover{
+    url?: string;
+}
 
-export interface Game {
-    id: number;
-    name: string;
-    summary?: string;
-    coverUrl?: string | null;
+export interface GameDTO{
+    id?: number;
+    name?: string;
     rating?: number;
-    genres?: number[] | string[];
-
+    summary?: string;
+    cover?: GameDTOCover;
+    coverUrl?: string;
+    genres?: number[];
+    genresNames?: string[];
 }

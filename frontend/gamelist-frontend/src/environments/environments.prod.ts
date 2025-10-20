@@ -1,4 +1,5 @@
+
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/games'
+  apiUrl: 'http://gamelist-backend:8080/games'
 };

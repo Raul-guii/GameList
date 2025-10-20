@@ -1,58 +1,32 @@
-import { Injectable } from '@angular/core';
-import { environment } from '../../environments/environments';
-import { catchError, map, Observable, throwError } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Game } from '../models/game.model';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { GameDTO } from '../models/game.model';
+import { environment } from '../../environments/environments';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
-  private base = `${environment.apiUrl}/games`;
+  private base = environment.apiUrl;
 
-  constructor(private http: HttpClient){}
+  constructor(private http : HttpClient){}
   
-  getGamesPage(page: number = 1, size: number = 6): Observable<{ items: Game[]; page: number; size: number }> {
-
-    let params = new HttpParams().set('page', String(page)).set('size', String(size));
-    
-    return this.http.get<any[]>(this.base, { params }).pipe(
-      map(raw => {
-        const items: Game[] = (raw || []).map(r => ({
-          id: r.id,
-          name: r.name,
-          summary: r.summary,
-          rating: r.rating,
-          coverUrl: r.cover?.url ? r.cover.url.replace(/^\/+/,'https://') : r.coverUrl || null,
-          genres: r.genres
-        }));
-        return { items, page, size };
-      })
-    );
+  getAll(): Observable<GameDTO[]>{
+    return this.http.get<GameDTO[]>(this.base);
   }
 
-  getGamesById(id: number): Observable<Game>{
-    return this.http.get<any>(`${this.base}/${id}`).pipe(
-      map(r => ({
-        id: r.id,
-        name: r.id,
-        summary: r.summary,
-        rating: r.rating,
-        coverUrl: r.cover?.url ? r.cover.url.replace(/^\/+/,'https://') : r.coverUrl || null,
-        genres: r.genres
-      }))
-    );
+  getById(id: number):Observable<GameDTO>{
+    return this.http.get<GameDTO>(`${this.base}/${id}`);
   }
 
-  searchGames(keyword: string, page = 1, size = 10){
-    const params = new HttpParams().set('keyword', keyword).set('page', String(page)).set('size', String(size));
-    return this.http.get<any[]>(`${this.base}/search`, { params }).pipe(
-      map(raw => ({ items: (raw || []).map(r => ({
-        id: r.id, name: r.name, summary: r.summary, rating: r.rating,
-        coverUrl: r.cover?.url ? r.cover.url.replace(/^\/+/,'https://') : r.coverUrl || null,
-        genres: r.genres
-      })), page, size }))
-    );
+  search(keyword: string): Observable<GameDTO[]>{
+    const params = new HttpParams().set('keyword', keyword);
+    return this.http.get<GameDTO[]>(`${this.base}/search`, { params });
   }
 
+  getByGenres(genresIds: number[] = []): Observable<GameDTO[]>{
+    const params = new HttpParams().set('genres', genresIds.join(','));
+    return this.http.get<GameDTO[]>(`${this.base}/genres`,{ params });
+  }
 }

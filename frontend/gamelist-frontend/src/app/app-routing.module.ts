@@ -1,14 +1,10 @@
-import { NgModule } from "@angular/core";
-import { Router, RouterModule, Routes } from "@angular/router";
-
+import { provideRouter, RouterModule, Routes } from '@angular/router';
+import { GameListComponent } from './components/game-list/game-list.component';
+import { GameDetailComponent } from './components/game-detail/game-detail.component';
 
 const routes: Routes = [
-    { path: '**', redirectTo: '' }
+  { path: '', component: GameListComponent },
+  { path: 'games/:id', component: GameDetailComponent },
 ];
 
-@NgModule({
-    imports: [RouterModule.forRoot(routes)],
-    exports: [RouterModule]
-})
-
-export class AppRoutingModule { }
+export const appRouterProviders = [ provideRouter(routes)];
