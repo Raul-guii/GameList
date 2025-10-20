@@ -8,34 +8,33 @@ services:
       dockerfile: Dockerfile
     container_name: gamelist-backend
     ports:
-      - "8080:8080" # Porta para acessar o Backend
+      - "8080:8080"
     depends_on:
-      # O backend depende do DB para iniciar
       db:
         condition: service_healthy 
-    # Variáveis de Ambiente para a conexão com o MySQL
     environment:
-      # *** CONEXÃO MySQL ***: O host é o nome do serviço 'db'
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/gamelist?useSSL=false&allowPublicKeyRetrieval=true
       SPRING_DATASOURCE_USERNAME: raul_guilherme
       SPRING_DATASOURCE_PASSWORD: 312689840
-      SPRING_JPA_DATABASE-PLATFORM: org.hibernate.dialect.MySQLDialect
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQLDialect
     restart: unless-stopped
   
-  # 2. SERVIÇO: FRONTEND (Angular / Nginx)
+  # 2. SERVIÇO: FRONTEND (Angular Development)
   frontend:
-    build: 
-      context: ./frontend
-      dockerfile: Dockerfile
-    container_name: gamelist-frontend
+    image: node:lts-slim 
+    container_name: gamelist-frontend-dev
+    # CRÍTICO: Usamos 4201 no host para evitar o processo fantasma na 4200.
     ports:
-      # Mapeia a porta 4200 local para a porta 80 do Nginx
-      - "4200:80"
+      - "4201:4200" # Porta 4201 (Host) -> Porta 4200 (Container)
+    volumes:
+      - ./frontend/gamelist-frontend:/app
+    working_dir: /app
+    # O comando garante que o Angular escute 0.0.0.0 e 4200.
+    command: npm start -- --host 0.0.0.0 --port 4200
     depends_on:
       - backend
-    restart: unless-stopped
-
-  # 3. SERVIÇO: BANCO DE DADOS (MySQL) - CONFIGURAÇÃO MANTIDA
+    
+  # 3. SERVIÇO: BANCO DE DADOS (MySQL)
   db:
     image: mysql:8.0
     container_name: gamelist-db
@@ -51,12 +50,12 @@ services:
       - db_data:/var/lib/mysql
       - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"] # Ajuste no healthcheck para MySQL 8.0
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
       interval: 10s
       timeout: 5s
       retries: 5
-  
-  # 4. SERVIÇO: PHPMYADMIN - CONFIGURAÇÃO MANTIDA
+    
+  # 4. SERVIÇO: PHPMYADMIN
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: gamelist-phpmyadmin
