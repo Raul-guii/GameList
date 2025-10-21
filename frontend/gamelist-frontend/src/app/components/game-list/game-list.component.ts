@@ -21,9 +21,15 @@ export class GameListComponent {
   load(): void {
     this.loading = true;
     this.svc.getAll().subscribe({
-      next: data => { this.games = data; this.loading = false; },
+      next: data => { this.games = data; this.loading = false; console.log('Games recebidos da API: ', this.games)},
       error: err => { this.error = 'Erro carregar jogos'; console.error(err); this.loading = false; }
     });
+  }
+
+  onCoverError(event: Event){
+    const img = event.target as HTMLImageElement;
+    img.src = '/assets/placeholder.png';
+    img.onerror = null;
   }
 
   ngOnInit(): void{

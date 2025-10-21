@@ -1,18 +1,40 @@
-<div class="list-root">
+<div class="game-list-root">
   <div *ngIf="loading" class="loading">Carregando...</div>
   <div *ngIf="error" class="error">{{ error }}</div>
 
-  <div *ngIf="!loading && games.length === 0" class="empty">Nenhum jogo encontrado.</div>
+  <div *ngIf="!loading && games.length" class="grid">
+    <a *ngFor="let g of games" class="card" [routerLink]="['/games', g.id]"
+       role="button"
+       tabindex="0"
+       [attr.aria-label]="'Abrir ' + g.name">
 
-  <ul *ngIf="!loading && games.length" class="games">
-    <li *ngFor="let g of games" class="game-item">
-      <img *ngIf="g.coverUrl || g.cover?.url" [src]="g.coverUrl ?? g.cover?.url" alt="{{ g.name }}" class="cover">
-      <div class="meta">
-        <strong class="title">{{ g.name }}</strong>
-        <div class="rating">Rating: {{ g.rating ?? '—' }}</div>
-        <p class="summary">{{ g.summary }}</p>
-        <a [routerLink]="['/games', g.id]" class="details-link">Ver detalhes</a>
+      <div class="cover" aria-hidden="true">
+        <img 
+          *ngIf="g.coverUrl || g.cover?.url; else noImage"
+          [src]="g.coverUrl ?? g.cover?.url"
+          (error)="onCoverError($event)"
+          alt="{{ g.name }}"
+          loading="lazy"
+        />
+        <ng-template #noImage>
+          <img src="../../../assets/placeholder.svg" alt="placeholder" />
+        </ng-template>
       </div>
-    </li>
-  </ul>
+
+      <div class="meta">
+        <h3 class="title">{{ g.name }}</h3>
+        <div class="subinfo">
+          <span class="rating">{{ g.rating ? (g.rating | number:'1.0-0') : '-' }}</span>
+          <span class="genres" *ngIf="g.genresNames?.length">
+            {{ (g.genresNames?.slice(0) || []).join(', ') }}
+          </span>
+        </div>
+      </div>
+
+    </a>
+  </div>
+
+  <div *ngIf="!loading && !games.length" class="empty">
+    Nenhum jogo encontrado
+  </div>
 </div>

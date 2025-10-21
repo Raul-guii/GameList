@@ -1,0 +1,21 @@
+<button class="menu-toggle" (click)="onToggle()" aria-label="Abrir/fechar menu">
+ <span class="burger" aria-hidden="true">☰</span>
+</button>
+
+<nav class="sidebar" [class.hidden]="!visible" role="navigation" aria-label="Menu principal">
+    <div class="logo">
+        🎮 <span class="brand">GameList</span>
+    </div>
+
+    <ul class="menu">
+        <li routerLink="/games" routerLinkActive="active">
+            <i class="icon">🕹️</i> <span>Games</span>
+        </li>
+        <li>
+            <i class="icon">⭐</i> <span>Favoritos</span>
+        </li>
+        <li>
+            <i class="icon">👤</i> <span>Perfil</span>
+        </li>
+    </ul>
+</nav>

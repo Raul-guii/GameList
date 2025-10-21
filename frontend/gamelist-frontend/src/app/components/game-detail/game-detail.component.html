@@ -1,7 +1,7 @@
 <div *ngIf="loading">Carregando...</div>
 <div *ngIf="error">{{ error }}</div>
 
-<div *ngIf="game">s
+<div *ngIf="game">
     <h2>{{ game.name }}</h2>
     <img *ngIf="game.coverUrl || game.cover?.url" [src]="game.coverUrl ?? game.cover?.url" alt="{{game.name}}" width="200">
     <p><strong>Rating:</strong> {{ game.rating ?? '-' }}</p>

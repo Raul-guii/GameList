@@ -1,59 +1,149 @@
-/* game-list.component.css */
-.list-root { margin-top: 1rem; }
-
-.loading,
-.error,
-.empty {
-  padding: 0.75rem;
-  border-radius: 6px;
-  margin-bottom: 0.75rem;
+/* game-list base CSS - dark grid
+   Ajuste as variáveis abaixo para mudar o visual rapidamente. */
+:root {
+  --bg: #070709;            /* fundo geral */
+  --panel: #0f1113;         /* fundo dos cards */
+  --card-border: rgba(255,255,255,0.04);
+  --text: #e6eef8;
+  --muted: #9aa7b8;
+  --accent: #00c8ff;        /* cor de destaque/neon */
+  --gap: 1rem;
+  --radius: 10px;
+  --card-padding: 0.75rem;
 }
 
-.loading { background: #f0f0f0; color: #333; }
-.error { background: #ffe6e6; color: #900; }
-.empty { color: #666; }
-
-.games {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.game-item {
-  display: flex;
-  gap: 1rem;
-  align-items: flex-start;
-  padding: 1rem 0;
-  border-bottom: 1px solid #e6e6e6;
-}
-
-.cover {
-  width: 90px;
-  height: auto;
-  object-fit: cover;
-  border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
-}
-
-.meta { flex: 1; }
-
-.title {
+/* reset simples pro componente */
+:host {
   display: block;
-  font-size: 1.05rem;
-  margin-bottom: 0.25rem;
+  box-sizing: border-box;
+  color: var(--text);
+  background: var(--bg);
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
 }
 
-.rating { color: #555; margin-bottom: 0.5rem; }
-
-.summary {
-  max-width: 60ch;
-  color: #444;
-  margin: 0.25rem 0 0.5rem;
+/* container */
+.game-list-root {
+  padding: calc(var(--gap) * 1.25);
+  min-height: 100vh;
+  background-color: #070709;
 }
 
-.details-link {
-  color: #0366d6;
+/* mensagens (loading / erro / vazio) */
+.loading, .error, .empty {
+  padding: 0.6rem 0.9rem;
+  border-radius: calc(var(--radius) / 1.2);
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.loading { background: rgba(255,255,255,0.02); }
+.error   { background: rgba(255,0,0,0.06); color: #ffb3b3; }
+.empty   { background: transparent; color: var(--muted); }
+
+/* GRID: responsivo, usa minmax para autopreencher */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+  align-items: start;
+  margin-top: 0.5rem;
+}
+
+/* CARD básico */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: var(--radius);
+  padding: var(--card-padding);
   text-decoration: none;
-  font-size: 0.95rem;
+  color: inherit;
+  transition: transform .14s ease, box-shadow .14s ease, border-color .14s ease;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.6);
+  border: 1px solid var(--card-border);
+  min-height: 100%; /* faz o card preencher a célula */
+  cursor: pointer;
 }
-.details-link:hover { text-decoration: underline; }
+
+/* hover - efeito neon sutil */
+.card:hover, .card:focus {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 36px rgba(0,0,0,0.6), 0 0 22px rgba(0,200,255,0.08);
+  border-color: rgba(0,200,255,0.16);
+  outline: none;
+}
+
+/* COVER (imagem) - controlamos altura para manter grid alinhado */
+.cover {
+  width: 100%;
+  min-height: 220px;           /* ajustar pra ficar maior/menor */
+  max-height: 260px;           /* evita cards muito altos */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: calc(var(--radius) - 2px);
+  background: linear-gradient(180deg, #0b0b0d, #101115);
+}
+
+/* IMG: keep quality. prefer width:100% + height:auto para não esticar.
+   object-fit: cover funciona quando a imagem é maior que o espaço. */
+.cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* corta centrado sem distorcer aspecto */
+  object-position: center;
+  display: block;
+  border-radius: 6px;
+  image-rendering: auto;  /* garantir interpolação normal (não pixelizar) */
+  -webkit-backface-visibility: hidden; /* small perf hint */
+}
+
+/* META area (título + subinfo) */
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.title {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.15;
+  color: var(--text);
+  font-weight: 6000;
+  overflow-wrap: anywhere;
+}
+.subinfo {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.rating {
+  background: rgba(255,255,255,0.03);
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  font-weight: 700;
+  color: #bfefff;
+}
+
+/* pequenas "chips" para generos */
+.genre-chip {
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.02);
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+/* adaptativo - telas muito pequenas */
+@media (max-width: 420px) {
+  .grid { gap: 0.6rem; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .cover { min-height: 160px; max-height: 180px; }
+  .title { font-size: 0.92rem; }
+}
+
+/* utilitários (opcionais) */
+.u-center { display:flex; align-items:center; justify-content:center; }
