@@ -7,29 +7,35 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import java.time.Instant;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users"
+       )
+
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(nullable = false, unique = true, length = 60)
+    @Column(nullable = false)
     private String username;
     
-    @Column(nullable = false, unique = true, length = 120)
     private String email;
     
     @Column(nullable = false)
     private String password;
+    
+    private String name;
 
-    public User(Long id, String username, String email, String password) {
+    
+    public User(){}
+    
+    public User(Long id, String username, String email, String password, String name) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.name = name;
     }
 
     public Long getId() {
@@ -62,6 +68,15 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
-    } 
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     
 }
