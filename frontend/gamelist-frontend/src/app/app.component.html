@@ -1,7 +1,5 @@
 <main>
     <h1>{{ title }}</h1>
-    <p>Aplicação Angular inicial (standalone)</p>
-    <app-game-search></app-game-search>
     <app-sidebar [visible]="sidebarVisible" (toggleSidebar)="toggleSidebar()"></app-sidebar>
 
     <div class="main-content" [class.full]="!sidebarVisible">

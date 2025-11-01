@@ -1,0 +1,56 @@
+<div class="register-container">
+  <h2>Cadastro</h2>
+
+  <form (ngSubmit)="onSubmit()" #form="ngForm">
+    <div class="form-group">
+      <label for="name">Nome</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        [(ngModel)]="user.name"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="username">Usuário</label>
+      <input
+        type="text"
+        id="username"
+        name="username"
+        [(ngModel)]="user.username"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="email">E-mail</label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        [(ngModel)]="user.email"
+        required
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="password">Senha</label>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        [(ngModel)]="user.password"
+        required
+      />
+    </div>
+
+    <button type="submit" [disabled]="form.invalid">Cadastrar</button>
+
+    <p class="redirect">
+      Já tem conta?
+      <a routerLink="/login">Faça login</a>
+    </p>
+  </form>
+</div>

@@ -14,6 +14,12 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  constructor(){}
+
+  ngOnInit(){
+    console.log('AppComponent')
+  }
+
    title = 'GameList';
 
    sidebarVisible = true;
