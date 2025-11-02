@@ -17,20 +17,21 @@ services:
       SPRING_DATASOURCE_USERNAME: raul_guilherme
       SPRING_DATASOURCE_PASSWORD: 312689840
       SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQLDialect
+
+      JWT_SECRET: "EIko84oTY4LWCrh75ucVaExFMiRxVa706LDqqGwttn419+Jx+re8PfObSci7FuUJ"
     restart: unless-stopped
   
   # 2. SERVIÇO: FRONTEND (Angular Development)
   frontend:
-    image: node:lts-slim 
+    image: node:lts-slim
     container_name: gamelist-frontend-dev
-    # CRÍTICO: Usamos 4201 no host para evitar o processo fantasma na 4200.
     ports:
-      - "4201:4200" # Porta 4201 (Host) -> Porta 4200 (Container)
+      - "4201:4200"
     volumes:
       - ./frontend/gamelist-frontend:/app
+      - /app/node_modules
     working_dir: /app
-    # O comando garante que o Angular escute 0.0.0.0 e 4200.
-    command: npm start -- --host 0.0.0.0 --port 4200
+    command: /bin/sh -c "npm install -g npm@11.6.2 && npm install && npx ng serve --host 0.0.0.0 --port 4200"
     depends_on:
       - backend
     
