@@ -51,13 +51,13 @@ a API externa IGDB para busca de informações sobre os jogos. Toda a aplicaçã
 # Como rodar o projeto?
 ## Opção 1(Certifique-se de ter Docker e Docker Compose instalados)
 - Use esse comando na raiz do projeto com o Docker aberto:
-- docker compose up --build
+```docker compose up --build```
 
 ## Opção 2
 - Usar o Angular somente no ambiente local(o backend e o banco continuarão rodando no Docker)
 - use esse comando na pasta frontend/gamelist-frontend:
-- npm install
-- pm start/ng serve
+  ```npm install```
+  ```npm start/ng serve```
 
 # API Externa (IGDB)
 - A integração com a IGDB API permite buscar informações detalhadas dos jogos.
@@ -65,7 +65,7 @@ a API externa IGDB para busca de informações sobre os jogos. Toda a aplicaçã
 - O backend faz as requisições e serve os dados tratados para o frontend.
 
 # Autor:
-Raul Guilherme
+### Raul Guilherme
 - Email(raulawp460@gmail.com)
 - LinkedIn(https://www.linkedin.com/in/raul-guilherme-549030367/)
 
