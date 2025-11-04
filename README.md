@@ -20,33 +20,35 @@ a API externa IGDB para busca de informações sobre os jogos. Toda a aplicaçã
 - Docker e Docker Compose
 - Postman (para testes de requisição)
 
-# Estrutura do Projeto (MVC + Angular)
+# Estrutura do Projeto (MVC + Angular) 
+```
 ├── src/
-│ ├── main/java/com/gamelist/
-│ │ ├── controller/ # Camada de controle (endpoints REST)
-│ │ ├── service/ # Regras de negócio
-│ │ ├── model/ # Entidades JPA
-│ │ ├── repository/ # Acesso ao banco
-│ │ └── config/ # Segurança, CORS, etc
-│ ├── main/resources/
-│ │ └── application.properties
-│ └── test/
+│   ├── main/java/com/gamelist/
+│   │   ├── controller/         # Camada de controle (endpoints REST)
+│   │   ├── service/            # Regras de negócio
+│   │   ├── model/              # Entidades JPA
+│   │   ├── repository/         # Acesso ao banco
+│   │   └── config/             # Segurança, CORS, etc
+│   ├── main/resources/
+│   │   └── application.properties
+│   └── test/
 │
 ├── frontend/
-│ ├── src/app/
-│ │ ├── components/ # Componentes visuais (Login, Home, Listas, etc)
-│ │ ├── services/ # Comunicação com a API via HttpClient
-│ │ ├── models/ # Interfaces e classes de dados
-│ │ ├── guards/ # Proteção de rotas (AuthGuard)
-│ │ └── interceptors/ # Intercepta requisições (ex: JWT)
-│ ├── src/environments/ # Variáveis de ambiente (API URLs, modo dev/prod)
-│ └── package.json
+│   ├── src/app/
+│   │   ├── components/         # Componentes visuais (Login, Home, Listas, etc)
+│   │   ├── services/           # Comunicação com a API via HttpClient
+│   │   ├── models/             # Interfaces e classes de dados
+│   │   ├── guards/             # Proteção de rotas (AuthGuard)
+│   │   └── interceptors/       # Intercepta requisições (ex: JWT)
+│   ├── src/environments/       # Variáveis de ambiente (API URLs, modo dev/prod)
+│   └── package.json
 │
 ├── docker-compose.yml
 ├── pom.xml
 └── README.md
+```
 
-# Opções para rodar o projeto
+# Como rodar o projeto?
 ## Opção 1(Certifique-se de ter Docker e Docker Compose instalados)
 - Use esse comando na raiz do projeto com o Docker aberto:
 - docker compose up --build
