@@ -2,6 +2,15 @@
   <div *ngIf="loading" class="loading">Carregando...</div>
   <div *ngIf="error" class="error">{{ error }}</div>
 
+  <div class="search-container">
+    <input type="text"
+    [(ngModel)]="keyword"
+    placeholder="Buscar jogo.."
+    (keyup.enter)="search()">
+    <button (click)="search()">Buscar</button>
+  </div>
+
+<div class="games-container">
   <div *ngIf="!loading && games.length" class="grid">
     <a *ngFor="let g of games" class="card" [routerLink]="['/games', g.id]"
        role="button"
@@ -33,6 +42,7 @@
 
     </a>
   </div>
+</div>
 
   <div *ngIf="!loading && !games.length" class="empty">
     Nenhum jogo encontrado
