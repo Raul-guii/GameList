@@ -32,6 +32,10 @@ export class GameDetailComponent {
     return url;
   }
 
+  getGenreNames(game: GameDTO): string {
+    if (!game.genres) return '—';
+    return game.genres.map(g => g.name).join(', ');
+  }
 
 
   

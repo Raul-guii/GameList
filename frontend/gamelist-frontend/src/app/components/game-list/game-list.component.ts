@@ -52,7 +52,7 @@ export class GameListComponent {
 
   return url;
   }
-
+  
     search(): void {
     if (!this.keyword.trim()) return;
 
@@ -61,6 +61,8 @@ export class GameListComponent {
       error: (erro) => console.error(erro)
     })
   }
+
+  
 
   ngOnInit(): void{
     this.load();

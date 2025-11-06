@@ -2,6 +2,12 @@ export interface GameDTOCover{
     url?: string;
 }
 
+
+export interface GenreDTO{
+    id: number;
+    name: string;
+}
+
 export interface GameDTO{
     id?: number;
     name?: string;
@@ -9,6 +15,5 @@ export interface GameDTO{
     summary?: string;
     cover?: GameDTOCover;
     coverUrl?: string;
-    genres?: number[];
-    genresNames?: string[];
+    genres?: GenreDTO[];
 }
