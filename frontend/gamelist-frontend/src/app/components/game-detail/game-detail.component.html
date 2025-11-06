@@ -9,6 +9,5 @@
          width="200"
          class="cover-image">
     <p><strong>Rating:</strong> {{ game.rating ?? '-' }}</p>
-    <p><strong>Gêneros:</strong> {{ game.genresNames?.join(', ') || '—' }}</p>
-    <p>{{ game.summary }}</p>
+    <p><strong>Gêneros:</strong> {{ getGenreNames(game) }}</p>
 </div>

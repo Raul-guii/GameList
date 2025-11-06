@@ -1,11 +1,10 @@
 
 :root {
-  --bg: #070709;            /* fundo geral */
-  --panel: #0f1113;         /* fundo dos cards */
+  --panel: #0f1113;         
   --card-border: rgba(255,255,255,0.04);
   --text: #e6eef8;
   --muted: #9aa7b8;
-  --accent: #00c8ff;        /* cor de destaque/neon */
+  --accent: #00c8ff;       
   --gap: 1rem;
   --radius: 10px;
   --card-padding: 0.75rem;
@@ -22,7 +21,7 @@
 .game-list-root {
   padding: calc(var(--gap) * 1.25);
   min-height: 100vh;
-  background-color: #070709;
+  background-color: #000000;
 }
 
 .loading, .error, .empty {
@@ -39,7 +38,7 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 20px;
+  gap: 2px;
   align-items: start;
   margin-top: 0.5rem;
 }

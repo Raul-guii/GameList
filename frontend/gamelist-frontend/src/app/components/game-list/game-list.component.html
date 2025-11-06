@@ -32,11 +32,10 @@
 
       <div class="meta">
         <h3 class="title">{{ g.name }}</h3>
+
         <div class="subinfo">
           <span class="rating">{{ g.rating ? (g.rating | number:'1.0-0') : '-' }}</span>
-          <span class="genres" *ngIf="g.genresNames?.length">
-            {{ (g.genresNames?.slice(0) || []).join(', ') }}
-          </span>
+
         </div>
       </div>
 
