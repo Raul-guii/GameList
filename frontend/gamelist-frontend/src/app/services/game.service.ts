@@ -20,7 +20,7 @@ export class GameService {
     return this.http.get<GameDTO>(`${this.base}/${id}`);
   }
 
-  search(keyword: string): Observable<GameDTO[]>{
+  searchGames(keyword: string): Observable<GameDTO[]>{
     const params = new HttpParams().set('keyword', keyword);
     return this.http.get<GameDTO[]>(`${this.base}/search`, { params });
   }
