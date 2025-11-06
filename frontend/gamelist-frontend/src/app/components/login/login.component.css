@@ -1,4 +1,16 @@
 /* Tema Dark moderno para o login */
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+html, body{
+  height: 100%;
+  margin: 0 auto;
+}
+
 body {
   background: #121212;
   font-family: "Poppins", sans-serif;
@@ -7,7 +19,7 @@ body {
   justify-content: center;
   align-items: center;
   height: 100vh;
-  margin: 0;
+  margin: 0 auto;
 }
 
 .login-container {

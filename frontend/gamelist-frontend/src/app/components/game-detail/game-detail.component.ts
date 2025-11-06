@@ -18,6 +18,24 @@ export class GameDetailComponent {
 
   constructor(private route: ActivatedRoute, private svc: GameService){}
 
+  getHighResCover(url: string | undefined) : string | undefined{
+    if (!url) return undefined;
+
+    if (url?.includes('t_thumb')){
+      return url.replace('t_thumb', 't_cover_big');
+    }
+
+    if (url.includes('/crop/')){
+      return url.replace(/\/crop\/\d+\//, '/resize/640/');
+    }
+
+    return url;
+  }
+
+
+
+  
+
   ngOnInit(): void{
     const id = Number(this.route.snapshot.paramMap.get('id'));
     if (id){

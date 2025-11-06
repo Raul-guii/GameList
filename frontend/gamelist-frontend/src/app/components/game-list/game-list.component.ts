@@ -28,8 +28,27 @@ export class GameListComponent {
 
   onCoverError(event: Event){
     const img = event.target as HTMLImageElement;
-    img.src = '/assets/placeholder.png';
+    img.src = '/assets/placeholder.svg';
     img.onerror = null;
+  }
+
+getHighResImage(url: string | undefined): string {
+  if (!url) return 'assets/placeholder.svg';
+  if (url.startsWith('//')) url = 'https:' + url;
+  if (url.startsWith('/')) url = 'https://media.rawg.io' + url;
+  if (url.startsWith('media.')) url = 'https://' + url;
+  if (url.includes('media.rawg.io')) {
+    url = url
+      .replace('/crop/200/', '/resize/640/')
+      .replace('/crop/300/', '/resize/640/')
+      .replace('/crop/400/', '/resize/800/');
+  }
+
+  if (url.includes('images.igdb.com')) {
+    url = url.replace('t_thumb', 't_cover_big');
+  }
+
+  return url;
   }
 
   ngOnInit(): void{

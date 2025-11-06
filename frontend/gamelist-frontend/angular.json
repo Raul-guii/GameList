@@ -13,17 +13,14 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
+            "assets": [
+            "src/favicon.ico",
+            "src/assets" ],
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
             "styles": [
               "src/custom-theme.scss",
               "src/styles.css"

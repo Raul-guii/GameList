@@ -87,15 +87,13 @@
   background: linear-gradient(180deg, #0b0b0d, #101115);
 }
 
-/* IMG: keep quality. prefer width:100% + height:auto para não esticar.
-   object-fit: cover funciona quando a imagem é maior que o espaço. */
 .cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;      /* corta centrado sem distorcer aspecto */
   object-position: center;
   display: block;
-  border-radius: 6px;
+  border-radius: 1px;
   image-rendering: auto;  /* garantir interpolação normal (não pixelizar) */
   -webkit-backface-visibility: hidden; /* small perf hint */
 }
