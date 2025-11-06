@@ -51,6 +51,8 @@ public class GameService {
         return igdbClient.getGamesByGenres(genreIds);
     }
     
+    
+    
    /* public void syncGamesFromApi(){
         String body = "fields id,name,cover.url,genres;\n" +
                       "limit 50;";
