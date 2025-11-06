@@ -1,6 +1,7 @@
 
 package com.game_list.gamelist.dto;
 
+import com.game_list.gamelist.entity.Genre;
 import java.util.List;
 
 public class GameDTO {
@@ -10,19 +11,25 @@ public class GameDTO {
     private Double rating;
     private Cover cover;
     private String summary;
-    private List<Long> genres;
+    private List<Genre> genres;
     
     private String coverUrl;
     private List<String> genreNames;
     
     public GameDTO(){}
-    
-    public GameDTO(Long id, String name, String coverUrl, Double rating, String summary) {
+
+    public GameDTO(Long id, String name, Double rating, Cover cover, String summary, List<Genre> genres, String coverUrl, List<String> genreNames) {
         this.id = id;
         this.name = name;
         this.rating = rating;
+        this.cover = cover;
         this.summary = summary;
+        this.genres = genres;
+        this.coverUrl = coverUrl;
+        this.genreNames = genreNames;
     }
+    
+    
 
     public Long getId() {
         return id;
@@ -64,11 +71,11 @@ public class GameDTO {
         this.cover = cover;
     }
 
-    public List<Long> getGenres() {
+    public List<Genre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<Long> genres) {
+    public void setGenres(List<Genre> genres) {
         this.genres = genres;
     }
 

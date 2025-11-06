@@ -31,19 +31,19 @@ public class GameService {
     }
 
     public List<GameDTO> getAllGames() {
-        String body = "fields id,name,genres,rating,summary,cover.url; limit 20;";
+        String body = "fields id,name,genres.name,rating,summary,cover.url; limit 20;";
         return igdbClient.sendRequest(body);
     }
 
     public GameDTO getGameById(Long id) {
-    String body = "fields id, name, rating, summary, cover.url, genres; where id = " + id + ";";
+    String body = "fields id, name, rating, summary, cover.url, genres.name; where id = " + id + ";";
     List<GameDTO> games = igdbClient.sendRequest(body);  
     return games.isEmpty() ? null : games.get(0);
     }
 
 
     public List<GameDTO> searchGamesByName(String keyword) {
-        String body = "fields id,name,genres,rating,summary,cover.url; search \"" + keyword + "\"; limit 10;";
+        String body = "fields id,name,genres.name,rating,summary,cover.url; search \"" + keyword + "\"; limit 10;";
         return igdbClient.sendRequest(body);
     }
     
