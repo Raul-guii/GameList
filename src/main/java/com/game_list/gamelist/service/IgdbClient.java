@@ -67,7 +67,7 @@ public class IgdbClient {
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
 
-        String body = "fields id, name, rating, summary, cover.url, genres; "
+        String body = "fields id, name, rating, summary, cover.url, genres.name; "
                 + "where genres = (" + idsString + ");";
 
         return sendRequest(body);
