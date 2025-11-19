@@ -1,6 +1,7 @@
 
 package com.game_list.gamelist.dto;
 
+import com.game_list.gamelist.entity.Favorite;
 import com.game_list.gamelist.entity.Game;
 import com.game_list.gamelist.entity.User;
 
@@ -18,7 +19,7 @@ public class FavoriteDTO {
         this.user_id = user_id;
         this.game_id = game_id;
     }
-
+    
     public Long getId() {
         return id;
     }
@@ -43,6 +44,7 @@ public class FavoriteDTO {
         this.game_id = game_id;
     }
 
+    
 
 
 

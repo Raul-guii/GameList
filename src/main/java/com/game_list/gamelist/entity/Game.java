@@ -13,6 +13,8 @@ public class Game {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    private Long externalId;
+    
     private String name;
     private String coverUrl;
     
@@ -31,12 +33,13 @@ public class Game {
             
     public Game(){}
 
-    public Game(Long id, String name, String summary, String coverUrl, Double rating, Instant createdAt) {
+    public Game(Long id, String name, String summary, String coverUrl, Double rating, Instant createdAt, Long exeternalId) {
         this.id = id;
         this.name = name;
         this.summary = summary;
         this.coverUrl = coverUrl;
         this.rating = rating;
+        this.externalId = externalId;
     }
 
     public Long getId() {
@@ -78,5 +81,23 @@ public class Game {
     public void setRating(Double rating) {
         this.rating = rating;
     }
+
+    public Long getExternalId() {
+        return externalId;
+    }
+
+    public void setExternalId(Long externalId) {
+        this.externalId = externalId;
+    }
+
+    public List<Genre> getGenres() {
+        return genres;
+    }
+
+    public void setGenres(List<Genre> genres) {
+        this.genres = genres;
+    }
+    
+    
     
 }

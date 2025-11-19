@@ -32,4 +32,10 @@ public class UserService implements UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
+    
+    public Long getIdByUsername(String username){
+        return userRepository.findByUsername(username)
+                .map(User::getId)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado: " + username));
+    }
 }

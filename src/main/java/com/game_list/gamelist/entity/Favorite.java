@@ -1,6 +1,7 @@
 
 package com.game_list.gamelist.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -43,14 +44,6 @@ public class Favorite {
     public void setUser(User user) {
         this.user = user;
     }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
     
     public Long getId() {
         return id;
@@ -59,6 +52,15 @@ public class Favorite {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+
     
 }
