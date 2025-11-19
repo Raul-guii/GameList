@@ -135,10 +135,20 @@
 }
 
 .search-container input {
-  padding: 8px;
-  width: 250px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+  width: 100%;
+  padding: 0.7rem;
+  border: 1px solid #333;
+  border-radius: 8px;
+  background: #2a2a2a;
+  color: #fff;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+}
+
+.search-container input:focus {
+  border-color: #4f8cff;
+  outline: none;
+  box-shadow: 0 0 6px rgba(79, 140, 255, 0.3);
 }
 
 button {
