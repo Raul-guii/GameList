@@ -17,7 +17,7 @@ public class IgdbClient {
     private final ObjectMapper mapper;
 
     private final String CLIENT_ID = "8g0cj3b9mj3wbkv68tkz28qfffs24s";
-    private final String ACCESS_TOKEN = "r3d1feoz11u4ibtx5hr6ehc4374vgf";
+    private final String ACCESS_TOKEN = "ddnpnxhggk65btfo4heu4nrg4029vt";
     private final String URL = "https://api.igdb.com/v4/games";
 
     public IgdbClient() {

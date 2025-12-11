@@ -44,9 +44,4 @@ public class FavoriteDTO {
         this.game_id = game_id;
     }
 
-    
-
-
-
-   
 }
