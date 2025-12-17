@@ -10,6 +10,8 @@ import { environment } from '../../environments/environments';
 export class GameService {
   private base = environment.apiUrl;
 
+  private gameCache = new Map<number, Observable<GameDTO>>();
+
   constructor(private http : HttpClient){}
   
   getAll(): Observable<GameDTO[]>{
