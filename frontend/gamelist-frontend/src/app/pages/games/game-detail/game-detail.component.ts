@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { GameDTO } from '../../models/game.model';
-import { GameService } from '../../services/game.service';
+import { GameDTO } from '../../../models/game.model';
+import { GameService } from '../../../services/game.service';
 
 @Component({
   selector: 'app-game-detail',

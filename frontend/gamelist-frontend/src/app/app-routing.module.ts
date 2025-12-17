@@ -1,23 +1,47 @@
 import { provideRouter, Routes } from '@angular/router';
-import { GameListComponent } from './components/game-list/game-list.component';
-import { GameDetailComponent } from './components/game-detail/game-detail.component';
-import { LoginComponent } from './components/login/login.component';
-import { RegisterComponent } from './components/register/register.component';
+import { GameListComponent } from './pages/games/game-list/game-list.component';
+import { GameDetailComponent } from './pages/games/game-detail/game-detail.component';
+import { LoginComponent } from './pages/auth/login/login.component';
+import { RegisterComponent } from './pages/auth/register/register.component';
 import { AuthGuard } from './guards/auth.guard';
+import { CleanLayoutComponent } from './layouts/clean-layout/clean-layout.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { FavoriteComponent } from './pages/games/favorite/favorite.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  {
-    path: 'games',
-    canActivate: [AuthGuard],
-    children: [
-      { path: '', component: GameListComponent },
-      { path: ':id', component: GameDetailComponent },
-    ],
-  },
-  { path: '**', redirectTo: 'login' }
+
+{
+  path: '',
+  pathMatch: 'full',
+  redirectTo: 'login'
+},
+
+//rotas sem sidebar
+{
+  path: '',
+  component: CleanLayoutComponent,
+  children: [
+    { path: 'login', component: LoginComponent },
+    { path: 'register', component: RegisterComponent}
+  ]
+},
+
+//rotas com sidebar
+{
+ path: '',
+ component: MainLayoutComponent,
+ canActivate: [AuthGuard],
+ children: [
+   { path: 'games', component: GameListComponent },
+   { path: 'games/:id', component: GameDetailComponent },
+   { path: 'favorites', component: FavoriteComponent } 
+ ]
+},
+
+//rota padrão
+{
+  path: '**', redirectTo: 'login' 
+}
 ];
 
 export const appRouterProviders = [provideRouter(routes)];
