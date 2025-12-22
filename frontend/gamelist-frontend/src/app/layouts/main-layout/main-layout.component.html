@@ -1,6 +1,10 @@
-<app-navbar></app-navbar>
+<app-sidebar
+  [visible]="sidebarVisible"
+  (toggleSidebar)="toggleSidebar()">
 
-<main class="container">
+</app-sidebar>
+
+<main class="container" [class.full]="!sidebarVisible">
   <router-outlet></router-outlet>
 </main>
 

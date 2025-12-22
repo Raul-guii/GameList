@@ -23,3 +23,22 @@
 .game-title { margin-top: 0; margin-bottom: 0.5rem; }
 
 .summary { color: #333; white-space: pre-wrap; margin-top: 0.5rem; }
+
+.favorite-btn {
+  background: none;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #aaa;
+  transition: color 0.2s ease, transform 0.2s ease;
+  width: 1000px;
+  height: 10px;
+}
+
+.favorite-btn.active {
+  color: #e63946;
+}
+
+.favorite-btn:hover {
+  transform: scale(1.15);
+}

@@ -3,6 +3,8 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GameDTO } from '../../../models/game.model';
 import { GameService } from '../../../services/game.service';
+import { FavoriteComponent } from '../favorite/favorite.component';
+import { FavoriteService } from '../../../services/favorite.service';
 
 @Component({
   selector: 'app-game-detail',
@@ -15,8 +17,11 @@ export class GameDetailComponent {
   game?: GameDTO;
   loading = true;
   error?: string;
+  isFavorite = false;
 
-  constructor(private route: ActivatedRoute, private svc: GameService){}
+  constructor(private route: ActivatedRoute,
+              private svc: GameService,
+              private favoriteService: FavoriteService){}
 
   getHighResCover(url: string | undefined) : string | undefined{
     if (!url) return undefined;
@@ -37,8 +42,19 @@ export class GameDetailComponent {
     return game.genres.map(g => g.name).join(', ');
   }
 
+  toggleFavorite() {
+    const game_id = this.game?.id;
 
-  
+    if (!game_id) return;
+
+    const action$ = this.isFavorite
+      ? this.favoriteService.removeFavorite(game_id)
+      : this.favoriteService.addFavorite(game_id);
+
+      action$.subscribe(() => {
+        this.isFavorite = !this.isFavorite;
+      });
+  }
 
   ngOnInit(): void{
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -51,5 +67,9 @@ export class GameDetailComponent {
       this.error = 'ID inválido';
       this.loading = false;
     }
+
+    this.favoriteService.isFavorite(id).subscribe(isFav => {
+      this.isFavorite = isFav;
+    })
   }
 }

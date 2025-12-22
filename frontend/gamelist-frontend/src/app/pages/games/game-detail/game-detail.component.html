@@ -8,6 +8,11 @@
          alt="{{game.name}}" 
          width="200"
          class="cover-image">
+    <button
+         class="favorite-btn"
+         [class.active]="isFavorite"
+         (click)="toggleFavorite()"
+         > ♥ </button>
     <p><strong>Rating:</strong> {{ game.rating ?? '-' }}</p>
     <p><strong>Gêneros:</strong> {{ getGenreNames(game) }}</p>
 </div>
