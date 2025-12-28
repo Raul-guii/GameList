@@ -33,31 +33,31 @@ a API externa IGDB para busca de informações sobre os jogos. Toda a aplicaçã
 │   │   └── application.properties
 │   └── test/
 │
-├── frontend/
-│   ├── src/app/
-│   │   ├── components/         # Componentes visuais (Login, Home, Listas, etc)
-│   │   ├── services/           # Comunicação com a API via HttpClient
-│   │   ├── models/             # Interfaces e classes de dados
-│   │   ├── guards/             # Proteção de rotas (AuthGuard)
-│   │   └── interceptors/       # Intercepta requisições (ex: JWT)
-│   ├── src/environments/       # Variáveis de ambiente (API URLs, modo dev/prod)
-│   └── package.json
+├──frontend/
+├── src/
+│   ├── app/
+│   │   ├── pages/          # Páginas principais ligadas às rotas
+│   │   ├── components/     # Componentes reutilizáveis da interface (navbar, sidebar, footer, etc)
+│   │   ├── layouts/        # Estruturas de layout da aplicação (organização visual e router-outlet)
+│   │   ├── services/       # Comunicação com a API e lógica compartilhada
+│   │   ├── models/         # Interfaces e modelos de dados
+│   │   ├── guards/         # Proteção de rotas (AuthGuard)
+│   │   └── auths/          # Autenticação, interceptors e controle de sessão
+│   ├── environments/      # Variáveis de ambiente (dev/prod)
+│   └── assets/             # Arquivos estáticos (imagens, ícones)
 │
-├── docker-compose.yml
-├── pom.xml
-└── README.md
+├── angular.json
+├── package.json
+└── tsconfig.json
+
 ```
 
 # Como rodar o projeto?
-## Opção 1(Certifique-se de ter Docker e Docker Compose instalados)
-- Use esse comando na raiz do projeto com o Docker aberto:
+## Certifique-se de ter Docker e Docker Compose instalados
+- Na primeira vez use esse comando na raiz do projeto com o Docker aberto:
 ```docker compose up --build```
-
-## Opção 2
-- Usar o Angular somente no ambiente local(o backend e o banco continuarão rodando no Docker)
-- use esse comando na pasta frontend/gamelist-frontend:
-  ```npm install```
-  ```npm start/ng serve```
+- Se for rodar da segunda vez ou mais (somente se vc n fez mudanças no código) use este código:
+```docker compose up -d```
 
 # API Externa (IGDB)
 - A integração com a IGDB API permite buscar informações detalhadas dos jogos.
