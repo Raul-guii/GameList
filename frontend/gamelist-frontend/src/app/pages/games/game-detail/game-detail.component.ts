@@ -20,7 +20,7 @@ export class GameDetailComponent {
   isFavorite = false;
 
   constructor(private route: ActivatedRoute,
-              private svc: GameService,
+              private gameService: GameService,
               private favoriteService: FavoriteService){}
 
   getHighResCover(url: string | undefined) : string | undefined{
@@ -58,18 +58,29 @@ export class GameDetailComponent {
 
   ngOnInit(): void{
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    if (id){
-      this.svc.getById(id).subscribe({
-        next: g => { this.game = g; this.loading = false; },
-        error: err => { this.error = 'Erro ao carregar jogo'; console.error(err); this.loading = false; }
-      });
-    } else {
-      this.error = 'ID inválido';
+
+    if  (!id) {
+      this.error = 'ID Inválido';
       this.loading = false;
+      return;
     }
 
-    this.favoriteService.isFavorite(id).subscribe(isFav => {
-      this.isFavorite = isFav;
-    })
+    this.gameService.getById(id).subscribe({
+      next: game => {
+        this.game =  game;
+        this.loading = false;
+
+        
+      this.favoriteService.isFavorite(id).subscribe(isFav => {
+        this.isFavorite = isFav;
+      });
+      },
+      error: err => {
+        console.error(err);
+        this.error = 'Erro ao carregar jogo';
+        this.loading = false;
+      }
+    });
   }
+
 }

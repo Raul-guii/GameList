@@ -23,7 +23,7 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   return next(authReq).pipe(
     catchError(error => {
       //se o backend nao autorizar
-      if (error.staus == 401){
+      if (error.status == 401){
         authService.logout();
         router.navigate(['/login']);
       }

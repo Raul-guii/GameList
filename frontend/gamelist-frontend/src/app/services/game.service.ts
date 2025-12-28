@@ -15,20 +15,20 @@ export class GameService {
   constructor(private http : HttpClient){}
   
   getAll(): Observable<GameDTO[]>{
-    return this.http.get<GameDTO[]>(this.base);
+    return this.http.get<GameDTO[]>(`${this.base}/games`);
   }
 
   getById(id: number):Observable<GameDTO>{
-    return this.http.get<GameDTO>(`${this.base}/${id}`);
+    return this.http.get<GameDTO>(`${this.base}/games/${id}`);
   }
 
   searchGames(keyword: string): Observable<GameDTO[]>{
     const params = new HttpParams().set('keyword', keyword);
-    return this.http.get<GameDTO[]>(`${this.base}/search`, { params });
+    return this.http.get<GameDTO[]>(`${this.base}/games/search`, { params });
   }
 
   getByGenres(genresIds: number[] = []): Observable<GameDTO[]>{
     const params = new HttpParams().set('genres', genresIds.join(','));
-    return this.http.get<GameDTO[]>(`${this.base}/genres`,{ params });
+    return this.http.get<GameDTO[]>(`${this.base}/games/genres`,{ params });
   }
 }
