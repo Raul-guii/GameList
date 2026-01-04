@@ -10,11 +10,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "favorites")
+@Table(name = "favorites",
+       uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"user_id", "game_id"})
+       }
+)
 public class Favorite {
     
     @Id
@@ -61,6 +66,4 @@ public class Favorite {
         this.game = game;
     }
 
-
-    
 }

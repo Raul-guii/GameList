@@ -10,14 +10,14 @@ public class FavoriteDTO {
 
    private Long user_id;
    
-   private Long game_id;
+   private Long gameId;
    
    public FavoriteDTO(){}
 
-    public FavoriteDTO(Long id, Long user_id, Long game_id) {
+    public FavoriteDTO(Long id, Long user_id, Long gameId) {
         this.id = id;
         this.user_id = user_id;
-        this.game_id = game_id;
+        this.gameId = gameId;
     }
     
     public Long getId() {
@@ -36,12 +36,12 @@ public class FavoriteDTO {
         this.user_id = user_id;
     }
 
-    public Long getGame_id() {
-        return game_id;
+    public Long getGameId() {
+        return gameId;
     }
 
-    public void setGame_id(Long game_id) {
-        this.game_id = game_id;
+    public void setGameId(Long gameId) {
+        this.gameId = gameId;
     }
 
 }

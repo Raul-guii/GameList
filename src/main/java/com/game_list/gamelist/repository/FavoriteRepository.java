@@ -9,5 +9,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     List<Favorite> findByUserId(Long user_id);
-    Optional<Favorite> findByUserIdAndGameId(Long user_id, Long game_id);
+    Optional<Favorite> findByUserIdAndGameId(Long user_id, Long gameId);
+    Optional<Favorite> findByUserIdAndGame_ExternalId(Long user_id, Long externalId);
+
+    boolean existsByUserIdAndGameId(Long user_id, Long id);
 }

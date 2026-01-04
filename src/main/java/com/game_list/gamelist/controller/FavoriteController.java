@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/favorites")
-@CrossOrigin(origins = {"http://localhost:4201", "http://127.0.0.1:4201"})
+@CrossOrigin(origins = {"*"})
 public class FavoriteController {
     
     private final FavoriteService favoriteService;
@@ -38,10 +38,17 @@ public class FavoriteController {
         this.userService = userService;
     }
     
-    @GetMapping
-    public List<Favorite> getFavoriteByUser(Authentication auth){
+    @GetMapping("/{externalGameId}")
+    public ResponseEntity<Boolean> isFavorite(@PathVariable Long externalGameId, Authentication auth){
         Long user_id = userService.getIdByUsername(auth.getName());
-        return favoriteService.getFavoriteByUser(user_id);
+        boolean isFav = favoriteService.isFavorite(user_id, externalGameId);
+        return ResponseEntity.ok(isFav);
+    }
+  
+    @GetMapping
+    public List<FavoriteDTO> getFavoriteByUser(Authentication auth){
+        Long user_id = userService.getIdByUsername(auth.getName());
+        return favoriteService.getFavoriteDTOByUser(user_id);
     }
     
     @PostMapping("/{game_id}")
@@ -56,7 +63,5 @@ public class FavoriteController {
         favoriteService.removeFavorite(user_id, game_id);
         return ResponseEntity.ok().build();
     }
-    
-    
     
 }
