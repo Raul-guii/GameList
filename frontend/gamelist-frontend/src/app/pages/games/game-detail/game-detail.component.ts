@@ -43,17 +43,22 @@ export class GameDetailComponent {
   }
 
   toggleFavorite() {
-    const game_id = this.game?.id;
+    if (!this.game?.id) return;
 
-    if (!game_id) return;
+    const gameId = this.game.id;
 
     const action$ = this.isFavorite
-      ? this.favoriteService.removeFavorite(game_id)
-      : this.favoriteService.addFavorite(game_id);
+      ? this.favoriteService.removeFavorite(gameId)
+      : this.favoriteService.addFavorite(gameId);
 
-      action$.subscribe(() => {
+    action$.subscribe({
+      next: () => {
         this.isFavorite = !this.isFavorite;
-      });
+      },
+      error: (err: any) => {
+        console.error('Erro ao favoritar:', err);
+      }
+    });
   }
 
   ngOnInit(): void{

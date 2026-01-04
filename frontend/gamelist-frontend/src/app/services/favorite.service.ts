@@ -26,9 +26,8 @@ export class FavoriteService {
     return this.http.post<void>(`${this.base}/favorites/${game_id}`, {});
   }
 
-  removeFavorite(game_id: number): Observable<void>{
-    this.gameCache.delete(game_id);
-    return this.http.delete<void>(`${this.base}/favorites/${game_id}`)
+  removeFavorite(game_id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.apiUrl}/favorites/${game_id}`);
   }
 
   getGameCached(game_id: number): Observable<GameDTO>{
@@ -44,7 +43,8 @@ export class FavoriteService {
 
   isFavorite(game_id: number): Observable<boolean>{
     return this.getFavorite().pipe(
-      map(favorites => favorites.some(f => f.game_id == game_id))
+      map(favorites => favorites.some(f => f.gameId == game_id))
     );
   }
+
 }

@@ -1,1 +1,51 @@
-<p>favorite.component works!</p>
+<div class="favorites-root">
+
+  <div *ngIf="loading" class="loading">
+    Carregando favoritos...
+  </div>
+
+  <div *ngIf="error" class="error">
+    {{ error }}
+  </div>
+
+  <div *ngIf="!loading && favorites.length === 0" class="empty">
+    Nenhum jogo favoritado ainda
+  </div>
+
+  <div class="grid" *ngIf="favorites.length > 0">
+    <div
+      class="card"
+      *ngFor="let game of favorites"
+      (contextmenu)="onRightClick($event, game)"
+    >
+
+      <div class="cover">
+        <img
+            *ngIf="game.coverUrl || game.cover?.url"
+            [src]="getHighResCover(game.coverUrl ?? game.cover?.url)"
+            [alt]="game.name"
+            />
+
+      </div>
+
+      <div class="meta">
+        <h4 class="title">{{ game.name }}</h4>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CONTEXT MENU -->
+  <div
+    *ngIf="contextMenuVisible"
+    class="context-menu"
+    [style.top.px]="contextMenuY"
+    [style.left.px]="contextMenuX"
+    (click)="contextMenuVisible = false"
+  >
+    <button (click)="removeSelectedFavorite()">
+      Remover dos favoritos
+    </button>
+  </div>
+
+</div>
