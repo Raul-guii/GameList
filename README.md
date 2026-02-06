@@ -7,6 +7,12 @@ Toda a aplicação é orquestrada com **Docker Compose**.
 
 ---
 
+## Diagrama de Classes
+
+![Diagrama de Classes do GameList](docs/diagrams/game-list-diagrama.png)
+
+---
+
 ## Tecnologias Utilizadas
 
 ### Backend
