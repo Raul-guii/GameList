@@ -16,6 +16,9 @@
     <div
       class="card"
       *ngFor="let game of favorites"
+      [routerLink]="['/games', game.id]"
+      role="button"
+      tabindex="0"
       (contextmenu)="onRightClick($event, game)"
     >
 
@@ -25,13 +28,10 @@
             [src]="getHighResCover(game.coverUrl ?? game.cover?.url)"
             [alt]="game.name"
             />
-
       </div>
-
       <div class="meta">
         <h4 class="title">{{ game.name }}</h4>
       </div>
-
     </div>
   </div>
 

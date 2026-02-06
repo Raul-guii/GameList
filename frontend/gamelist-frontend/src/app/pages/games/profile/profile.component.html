@@ -1,0 +1,21 @@
+<div class="profile-card" *ngIf="user && !loading">
+  <h2>Perfil</h2>
+
+  <div class="user-name">
+    <p><strong>Nome:</strong> {{ user.name }}</p>
+  </div>
+
+  <div class="button-edit">
+    <button [routerLink]="['/profile-edit']">
+      Editar perfil
+    </button>
+  </div>
+  <div class="button-delete">
+    <button class="danger" (click)="deactivateAccount()">
+      Desativar conta
+    </button>
+  </div>
+</div>
+
+<p *ngIf="loading">Carregando...</p>
+<p class="error" *ngIf="error">{{ error }}</p>

@@ -1,0 +1,20 @@
+<div class="profile-card">
+  <h2>Editar perfil</h2>
+
+  <form (ngSubmit)="save()" *ngIf="!loading">
+    <label>Nome</label>
+    <input
+      type="text"
+      [(ngModel)]="name"
+      name="name"
+      required
+    />
+
+    <div class="actions">
+      <button type="submit">Salvar</button>
+      <button type="button" (click)="cancel()">Cancelar</button>
+    </div>
+  </form>
+
+  <p *ngIf="loading">Salvando...</p>
+</div>

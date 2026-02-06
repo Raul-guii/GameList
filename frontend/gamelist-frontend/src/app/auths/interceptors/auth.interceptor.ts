@@ -15,19 +15,27 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
   let authReq = req;
   if (token){
     authReq = req.clone({
-      setHeaders:{ Authorization:`Bearer ${token}` }
+      setHeaders:{ Authorization:`Bearer ${token}`
+    }
     });
   }
 
   //Envia a request e escuta a response
   return next(authReq).pipe(
     catchError(error => {
-      //se o backend nao autorizar
-      if (error.status == 401){
-        authService.logout();
-        router.navigate(['/login']);
-      }
 
+    console.group('❌ ERRO HTTP');
+    console.log('Status:', error.status);
+    console.log('URL:', error.url);
+    console.log('Mensagem:', error.message);
+    console.log('Erro completo:', error);
+    console.groupEnd();
+
+      //se o backend nao autorizar
+    if (error.status === 401 || error.status === 403) {
+      authService.logout();
+      router.navigateByUrl('/login');
+    }
       //repassa o erro
       return throwError(() => error);
     })
