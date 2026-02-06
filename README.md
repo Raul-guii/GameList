@@ -38,6 +38,7 @@ a API externa IGDB para busca de informações sobre os jogos. Toda a aplicaçã
 - Guards e interceptors no frontend (Angular)
 
 # Estrutura do Projeto (MVC + Angular) 
+```
 ├── src/
 │   ├── main/java/com/gamelist/
 │   │   ├── controller/         # Camada de controle (endpoints REST)
