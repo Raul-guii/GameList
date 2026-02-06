@@ -2,6 +2,7 @@ package com.game_list.gamelist.config;
 
 import com.game_list.gamelist.service.JwtService;
 import com.game_list.gamelist.service.UserService;
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +17,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
+import java.util.List;
+import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
@@ -28,15 +32,22 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     @Autowired
     private UserService userService;
 
+    
+    @PostConstruct
+    public void init(){
+        System.out.println(">>JWT FILTER CRIADO<<");
+    }
+    
     @Override
-protected void doFilterInternal(HttpServletRequest request,
+    protected void doFilterInternal(HttpServletRequest request,
                                 HttpServletResponse response,
                                 FilterChain filterChain) throws ServletException, IOException {
 
+    System.out.println(">>> JWT FILTER: " + request.getRequestURI());
+
     String uri = request.getRequestURI();
 
-    if (uri.startsWith("/auth")) {
-        log.debug("Ignorando JWT Filter para rota pública: {}", uri);
+    if (uri.startsWith("/auth") || uri.startsWith("/swagger") || uri.startsWith("/v3")){
         filterChain.doFilter(request, response);
         return;
     }
@@ -52,14 +63,28 @@ protected void doFilterInternal(HttpServletRequest request,
     String username = jwtService.validateToken(token);
 
     if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+    try{
         UserDetails userDetails = userService.loadUserByUsername(username);
+        
+        System.out.println(">> AUTH USER: " + userDetails.getUsername());
+        System.out.println(">> AUTHORITIES: " + userDetails.getAuthorities());
+
         UsernamePasswordAuthenticationToken auth =
-                new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                new UsernamePasswordAuthenticationToken(
+                        userDetails,
+                        null,
+                        userDetails.getAuthorities()
+                );
         auth.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
         SecurityContextHolder.getContext().setAuthentication(auth);
+    } catch (DisabledException ex){
+        log.warn("Usuário desativado tentou acessar: {}", username);
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+        return;
     }
 
     filterChain.doFilter(request, response);
 }
-
+    }
 }

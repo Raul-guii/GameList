@@ -1,6 +1,7 @@
 package com.game_list.gamelist.config;
 
 import com.game_list.gamelist.service.UserService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,13 +16,13 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.List;
+import org.springframework.http.HttpMethod;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 @Configuration
 public class SecurityConfig {
 
     @Autowired
-    @Lazy
     private JwtAuthFilter jwtAuthFilter;
 
     @Autowired
@@ -29,7 +30,7 @@ public class SecurityConfig {
     
     @Autowired
     private UserService userService;
-
+    
     @Bean
     public DaoAuthenticationProvider authenticationProvider(BCryptPasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider prov = new DaoAuthenticationProvider();
@@ -50,8 +51,9 @@ public class SecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource))
             .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/auth/**").permitAll()
-                .requestMatchers(org.springframework.http.HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
             )
             .authenticationProvider(provider)
