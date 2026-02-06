@@ -13,6 +13,15 @@ Toda a aplicação é orquestrada com **Docker Compose**.
 
 ---
 
+## Telas da aplicação
+### Lista de jogos
+![Lista de Jogos](doc/diagrams/tela1.png)
+
+### Lista de favoritos
+![Lista de Jogos](doc/diagrams/tela2.png)
+
+---
+
 ## Tecnologias Utilizadas
 
 ### Backend
