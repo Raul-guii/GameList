@@ -7,6 +7,8 @@ import { AuthGuard } from './auths/guards/auth.guard';
 import { CleanLayoutComponent } from './layouts/clean-layout/clean-layout.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { FavoriteComponent } from './pages/games/favorite/favorite.component';
+import { ProfileComponent } from './pages/games/profile/profile.component';
+import { ProfileEditComponent } from './pages/games/profile-edit/profile-edit.component';
 
 const routes: Routes = [
 
@@ -18,11 +20,17 @@ const routes: Routes = [
 
 //rotas sem sidebar
 {
-  path: '',
+  path: "login",
   component: CleanLayoutComponent,
   children: [
-    { path: 'login', component: LoginComponent },
-    { path: 'register', component: RegisterComponent}
+    { path: '', component: LoginComponent }
+  ]
+},
+{
+  path: "register",
+  component: CleanLayoutComponent,
+  children: [
+    { path: '', component: RegisterComponent }
   ]
 },
 
@@ -30,11 +38,13 @@ const routes: Routes = [
 {
  path: '',
  component: MainLayoutComponent,
- canActivate: [AuthGuard],
+ canActivateChild: [AuthGuard],
  children: [
    { path: 'games', component: GameListComponent },
    { path: 'games/:id', component: GameDetailComponent },
-   { path: 'favorites', component: FavoriteComponent } 
+   { path: 'favorites', component: FavoriteComponent }, 
+   { path: 'profile', component: ProfileComponent },
+   { path: 'profile-edit', component: ProfileEditComponent}
  ]
 },
 

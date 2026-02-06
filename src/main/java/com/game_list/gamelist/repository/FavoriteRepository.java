@@ -2,6 +2,7 @@
 package com.game_list.gamelist.repository;
 
 import com.game_list.gamelist.entity.Favorite;
+import com.game_list.gamelist.entity.User;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,6 +12,6 @@ public interface FavoriteRepository extends JpaRepository<Favorite, Long> {
     List<Favorite> findByUserId(Long user_id);
     Optional<Favorite> findByUserIdAndGameId(Long user_id, Long gameId);
     Optional<Favorite> findByUserIdAndGame_ExternalId(Long user_id, Long externalId);
-
     boolean existsByUserIdAndGameId(Long user_id, Long id);
+    void deleteByUser(User user);
 }

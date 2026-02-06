@@ -17,6 +17,8 @@ services:
       SPRING_DATASOURCE_USERNAME: raul_guilherme
       SPRING_DATASOURCE_PASSWORD: 312689840
       SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQLDialect
+      SPRING_PROFILES_ACTIVE: dev
+
 
       JWT_SECRET: "EIko84oTY4LWCrh75ucVaExFMiRxVa706LDqqGwttn419+Jx+re8PfObSci7FuUJ"
     restart: unless-stopped
