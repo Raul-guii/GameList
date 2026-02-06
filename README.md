@@ -20,8 +20,25 @@ a API externa IGDB para busca de informações sobre os jogos. Toda a aplicaçã
 - Docker e Docker Compose
 - Postman (para testes de requisição)
 
+## Funcionalidades
+- Cadastro e login de usuários com autenticação JWT
+- Perfis de usuário
+- Listas personalizadas de jogos
+- Favoritar jogos
+- Pesquisar por nomes de jogos
+- Integração com API externa (IGDB)
+- Controle de acesso por perfil
+- Editar nome de usuário
+- Desativar a própria conta
+
+## Segurança
+- Autenticação stateless com JWT
+- Filtros personalizados de segurança
+- Proteção de rotas no backend (Spring Security)
+- Guards e interceptors no frontend (Angular)
+
 # Estrutura do Projeto (MVC + Angular) 
-```
+
 ├── src/
 │   ├── main/java/com/gamelist/
 │   │   ├── controller/         # Camada de controle (endpoints REST)
