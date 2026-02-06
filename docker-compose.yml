@@ -1,9 +1,8 @@
 version: "3.8"
 
 services:
-  # 1. SERVIÇO: BACKEND (Spring Boot)
   backend:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     container_name: gamelist-backend
@@ -11,19 +10,13 @@ services:
       - "8080:8080"
     depends_on:
       db:
-        condition: service_healthy 
+        condition: service_healthy
+    env_file:
+      - .env
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/gamelist?useSSL=false&allowPublicKeyRetrieval=true
-      SPRING_DATASOURCE_USERNAME: raul_guilherme
-      SPRING_DATASOURCE_PASSWORD: 312689840
-      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQLDialect
       SPRING_PROFILES_ACTIVE: dev
-
-
-      JWT_SECRET: "EIko84oTY4LWCrh75ucVaExFMiRxVa706LDqqGwttn419+Jx+re8PfObSci7FuUJ"
     restart: unless-stopped
-  
-  # 2. SERVIÇO: FRONTEND (Angular Development)
+
   frontend:
     image: node:lts-slim
     container_name: gamelist-frontend-dev
@@ -33,32 +26,31 @@ services:
       - ./frontend/gamelist-frontend:/app
       - /app/node_modules
     working_dir: /app
-    command: /bin/sh -c "npm install -g npm@11.6.2 && npm install && npx ng serve --host 0.0.0.0 --port 4200"
+    command: >
+      sh -c "npm install &&
+             npx ng serve --host 0.0.0.0 --port 4200"
     depends_on:
       - backend
-    
-  # 3. SERVIÇO: BANCO DE DADOS (MySQL)
+
   db:
     image: mysql:8.0
     container_name: gamelist-db
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: 312689840
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: gamelist
-      MYSQL_USER: raul_guilherme
-      MYSQL_PASSWORD: 312689840
+      MYSQL_USER: gamelist
+      MYSQL_PASSWORD: gamelist
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql
-      - ./docker/mysql-init:/docker-entrypoint-initdb.d:ro
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
       interval: 10s
       timeout: 5s
       retries: 5
-    
-  # 4. SERVIÇO: PHPMYADMIN
+
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
     container_name: gamelist-phpmyadmin
@@ -66,8 +58,8 @@ services:
       - db
     environment:
       PMA_HOST: db
-      PMA_USER: raul_guilherme
-      PMA_PASSWORD: 312689840
+      PMA_USER: gamelist
+      PMA_PASSWORD: gamelist
     ports:
       - "8081:80"
     restart: unless-stopped
