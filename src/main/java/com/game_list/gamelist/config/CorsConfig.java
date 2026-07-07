@@ -17,10 +17,8 @@ public class CorsConfig {
         config.setAllowCredentials(true);
         config.setAllowedOrigins(List.of(
                 "http://localhost:4200",
-                "http://localhost:4201",
                 "http://127.0.0.1:4200",
-                "http://127.0.0.1:4201",
-                "null"
+                "https://game-list-l8f7bxudi-raul-guilhermes-projects-e2764feb.vercel.app"
         ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type", "Accept", "Origin"));

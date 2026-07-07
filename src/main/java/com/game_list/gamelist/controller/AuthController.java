@@ -1,72 +1,65 @@
 package com.game_list.gamelist.controller;
 
+import com.game_list.gamelist.dto.login.LoginRequest;
+import com.game_list.gamelist.dto.register.RegisterRequest;
+import com.game_list.gamelist.dto.user.UserResponse;
 import com.game_list.gamelist.entity.User;
+import com.game_list.gamelist.exception.BusinessRuleException;
 import com.game_list.gamelist.repository.UserRepository;
-import com.game_list.gamelist.service.JwtService;
+import com.game_list.gamelist.security.JwtService;
 import com.game_list.gamelist.service.UserService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = {"http://localhost:4200", "http://127.0.0.1:4200"})
+@RequiredArgsConstructor
 public class AuthController {
 
     private static final Logger log = LoggerFactory.getLogger(AuthController.class);
 
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private JwtService jwtService;
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UserService userService; // pra register
+    private final UserRepository userRepository;
+    private final JwtService jwtService;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody User user) {
-        var created = userService.registerUser(user);
-        created.setPassword(null);
-        return ResponseEntity.ok(created);
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserResponse register(@Valid @RequestBody RegisterRequest request) {
+        User created = userService.registerUser(request);
+        return UserResponse.from(created);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody User request) {
-        log.info("FallbackLogin attempt for username={}", request.getUsername());
-        try {
-            Optional<User> maybe = userRepository.findByUsername(request.getUsername());
-            if (maybe.isEmpty()) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas (usuário)");
-            }
-            User dbUser = maybe.get();
-            boolean matches = passwordEncoder.matches(request.getPassword(), dbUser.getPassword());
-            log.info("FallbackLogin matches={} for username={}", matches, request.getUsername());
-            if (!matches) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciais inválidas (senha)");
-            }
-            String token = jwtService.generateToken(dbUser.getUsername());
-            return ResponseEntity.ok(Collections.singletonMap("token", token));
-        } catch (Exception ex) {
-            log.error("FallbackLogin error", ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro inesperado");
-        }
-    }
+    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody LoginRequest request) {
+        log.info("Login attempt for email={}", request.email());
 
-    @PostMapping("/debug/check")
-    public ResponseEntity<?> debugCheck(@RequestBody User req) {
-        Optional<User> maybe = userRepository.findByUsername(req.getUsername());
-        if (maybe.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
-        boolean matches = passwordEncoder.matches(req.getPassword(), maybe.get().getPassword());
-        return ResponseEntity.ok(Collections.singletonMap("matches", matches));
+        User dbUser = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new BadCredentialsException("Credenciais inválidas"));
+
+        if (!dbUser.isActive()) {
+            throw new BusinessRuleException("Conta desativada");
+        }
+
+        boolean matches = passwordEncoder.matches(request.password(), dbUser.getPassword());
+        if (!matches) {
+            throw new BadCredentialsException("Credenciais inválidas");
+        }
+
+        // O token continua identificando o usuário pelo username — é o
+        // identificador interno usado em todo o resto do sistema (rotas,
+        // SecurityContext, etc). O e-mail é usado apenas para a etapa de login.
+        String token = jwtService.generateToken(dbUser.getUsername());
+        return ResponseEntity.ok(Collections.singletonMap("token", token));
     }
 }

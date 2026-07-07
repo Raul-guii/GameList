@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { forkJoin, Subject, takeUntil } from 'rxjs';
 import { FavoriteService } from '../../../services/favorite.service';
 import { GameDTO } from '../../../models/game.model';
 import { FavoriteDTO } from '../../../models/favorite.model';
+import { getHighResCoverUrl } from '../../../shared/utils/cover-url.util';
 
 @Component({
   selector: 'app-favorite.component',
@@ -26,24 +26,11 @@ export class FavoriteComponent implements OnInit, OnDestroy {
   error?: string;
   private destroy$ = new Subject<void>();
 
-  constructor(private favoriteService : FavoriteService){}
+  constructor(private favoriteService: FavoriteService) {}
 
-  getHighResCover(url: string | undefined): string | undefined {
-    if (!url) return undefined;
+  getHighResCover = getHighResCoverUrl;
 
-    if (url.includes('t_thumb')) {
-      return url.replace('t_thumb', 't_cover_big');
-    }
-
-    if (url.includes('/crop/')) {
-      return url.replace(/\/crop\/\d+\//, '/resize/640/');
-    }
-
-    return url;
-  }
-
-  
-  onRightClick(event: MouseEvent, game: GameDTO){
+  onRightClick(event: MouseEvent, game: GameDTO) {
     event.preventDefault();
 
     this.selectedFavorite = game;
@@ -52,7 +39,7 @@ export class FavoriteComponent implements OnInit, OnDestroy {
     this.contextMenuVisible = true;
   }
 
-  removeSelectedFavorite(){
+  removeSelectedFavorite() {
     if (!this.selectedFavorite) return;
 
     const fav = this.favoriteLinks.find(
@@ -66,7 +53,7 @@ export class FavoriteComponent implements OnInit, OnDestroy {
       );
       this.contextMenuVisible = false;
       this.selectedFavorite = undefined;
-    })
+    });
   }
 
   ngOnDestroy(): void {
@@ -80,19 +67,14 @@ export class FavoriteComponent implements OnInit, OnDestroy {
     this.favoriteService.getFavorite().pipe(takeUntil(this.destroy$))
       .subscribe({
         next: favs => {
-          console.log("favorites raw: ", favs)
           this.favoriteLinks = favs;
 
-          const requests = favs.map(f => {
-            console.log('mapped gameId: ', f.gameId);
-            return this.favoriteService.getGameCached(f.gameId);
-          }
-          );
+          const requests = favs.map(f => this.favoriteService.getGameCached(f.gameId));
 
           forkJoin(requests).subscribe({
-            next: game => {
-              this.favorites = game;
-              this.loading = false; 
+            next: games => {
+              this.favorites = games;
+              this.loading = false;
             },
             error: () => {
               this.error = 'Erro ao carregar jogos favoritos';
@@ -101,13 +83,13 @@ export class FavoriteComponent implements OnInit, OnDestroy {
           });
         },
         error: () => {
-          this.error = "erro ao carregar favoritos";
+          this.error = 'Erro ao carregar favoritos';
           this.loading = false;
         }
       });
 
-      document.addEventListener('click', () => {
-        this.contextMenuVisible = false;
-      });
+    document.addEventListener('click', () => {
+      this.contextMenuVisible = false;
+    });
   }
 }

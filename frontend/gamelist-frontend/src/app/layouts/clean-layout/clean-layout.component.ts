@@ -10,5 +10,4 @@ import { RouterModule } from '@angular/router';
   styleUrl: './clean-layout.component.css'
 })
 export class CleanLayoutComponent {
-
 }

@@ -1,21 +1,38 @@
-<div class="profile-card" *ngIf="user && !loading">
-  <h2>Perfil</h2>
+<div class="profile-wrap">
+  <div class="profile-card" *ngIf="user && !loading">
+    <div class="identity">
+      <div class="avatar">{{ initials }}</div>
+      <h2 class="name">{{ user.name }}</h2>
+      <p class="username">&#64;{{ user.username }}</p>
+      <p class="email">{{ user.email }}</p>
+    </div>
 
-  <div class="user-name">
-    <p><strong>Nome:</strong> {{ user.name }}</p>
+    <div class="divider"></div>
+
+    <div class="actions">
+      <button class="action-row" [routerLink]="['/profile-edit']">
+        <span>Edit profile</span>
+        <svg viewBox="0 0 24 24" width="16" height="16">
+          <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <button class="action-row danger" (click)="deactivateAccount()">
+        <span>Deactivate account</span>
+        <svg viewBox="0 0 24 24" width="16" height="16">
+          <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+
+      <button class="action-row danger-strong" (click)="deleteAccount()">
+        <span>Delete account permanently</span>
+        <svg viewBox="0 0 24 24" width="16" height="16">
+          <path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+      </button>
+    </div>
   </div>
 
-  <div class="button-edit">
-    <button [routerLink]="['/profile-edit']">
-      Editar perfil
-    </button>
-  </div>
-  <div class="button-delete">
-    <button class="danger" (click)="deactivateAccount()">
-      Desativar conta
-    </button>
-  </div>
+  <p class="state-text" *ngIf="loading">Loading...</p>
+  <p class="error" *ngIf="error">{{ error }}</p>
 </div>
-
-<p *ngIf="loading">Carregando...</p>
-<p class="error" *ngIf="error">{{ error }}</p>

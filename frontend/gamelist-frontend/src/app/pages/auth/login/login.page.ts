@@ -12,22 +12,26 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './login.page.css'
 })
 export class LoginComponent {
-  username = '';
+  email = '';
   password = '';
   errorMessage = '';
-  
+  loading = false;
+
   constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
-    this.authService.login({ username: this.username, password: this.password }).subscribe({
+    this.errorMessage = '';
+    this.loading = true;
+
+    this.authService.login({ email: this.email, password: this.password }).subscribe({
       next: (res) => {
-      console.log('login response ->', res);
-      this.authService.saveToken(res.token); 
-      console.log('after save -> localStorage.token =', localStorage.getItem('token'));
-      this.router.navigate(['/games']);
+        this.authService.saveToken(res.token);
+        this.loading = false;
+        this.router.navigate(['/games']);
       },
       error: () => {
-        this.errorMessage = 'Invalid credentials';
+        this.errorMessage = 'Credenciais inválidas';
+        this.loading = false;
       }
     });
   }

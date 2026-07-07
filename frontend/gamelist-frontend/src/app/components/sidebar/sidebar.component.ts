@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, Output, EventEmitter, Input } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,12 +9,19 @@ import { RouterModule } from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
-
 export class SidebarComponent {
+
   @Input() visible = true;
   @Output() toggleSidebar = new EventEmitter<void>();
 
-  onToggle(){
+  constructor(private router: Router) {}
+
+  onToggle() {
     this.toggleSidebar.emit();
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
 }

@@ -1,33 +1,23 @@
-/* Tema Dark moderno para o login */
 :host {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-}
-
-html, body{
-  height: 100%;
-  margin: 0 auto;
-}
-
-body {
-  background: #121212;
+  min-height: 100vh;
   font-family: "Poppins", sans-serif;
   color: #eee;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .login-container {
+  position: relative;
+  z-index: 1;
   background: #1e1e1e;
   padding: 2rem 2.5rem;
   border-radius: 16px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
-  width: 320px;
+  width: 100%;
+  max-width: 360px;
   text-align: center;
   animation: fadeIn 0.6s ease;
 }
@@ -51,7 +41,8 @@ body {
 }
 
 .input-group input {
-  width: 295px;
+  width: 100%;
+  box-sizing: border-box;
   padding: 0.7rem;
   border: 1px solid #333;
   border-radius: 8px;

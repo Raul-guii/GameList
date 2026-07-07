@@ -1,41 +1,34 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { GameDTO } from '../../../models/game.model';
 import { GameService } from '../../../services/game.service';
-import { FavoriteComponent } from '../favorite/favorite.component';
 import { FavoriteService } from '../../../services/favorite.service';
+import { getHighResCoverUrl } from '../../../shared/utils/cover-url.util';
+import { CommentsComponent } from '../../../components/comments/comments.component';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-game-detail',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, CommentsComponent],
   templateUrl: './game-detail.component.html',
   styleUrl: './game-detail.component.css'
 })
-export class GameDetailComponent {
+export class GameDetailComponent implements OnInit {
   game?: GameDTO;
   loading = true;
   error?: string;
   isFavorite = false;
 
-  constructor(private route: ActivatedRoute,
-              private gameService: GameService,
-              private favoriteService: FavoriteService){}
+  constructor(
+    private route: ActivatedRoute,
+    private gameService: GameService,
+    private favoriteService: FavoriteService,
+    private authService: AuthService
+  ) {}
 
-  getHighResCover(url: string | undefined) : string | undefined{
-    if (!url) return undefined;
-
-    if (url?.includes('t_thumb')){
-      return url.replace('t_thumb', 't_cover_big');
-    }
-
-    if (url.includes('/crop/')){
-      return url.replace(/\/crop\/\d+\//, '/resize/640/');
-    }
-
-    return url;
-  }
+  getHighResCover = getHighResCoverUrl;
 
   getGenreNames(game: GameDTO): string {
     if (!game.genres) return '—';
@@ -61,10 +54,10 @@ export class GameDetailComponent {
     });
   }
 
-  ngOnInit(): void{
+  ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    if  (!id) {
+    if (!id) {
       this.error = 'ID Inválido';
       this.loading = false;
       return;
@@ -72,13 +65,14 @@ export class GameDetailComponent {
 
     this.gameService.getById(id).subscribe({
       next: game => {
-        this.game =  game;
+        this.game = game;
         this.loading = false;
 
-        
-      this.favoriteService.isFavorite(id).subscribe(isFav => {
-        this.isFavorite = isFav;
-      });
+        if (this.authService.isLoggedIn()) {
+          this.favoriteService.isFavorite(id).subscribe(isFav => {
+            this.isFavorite = isFav;
+          });
+        }
       },
       error: err => {
         console.error(err);
@@ -87,5 +81,4 @@ export class GameDetailComponent {
       }
     });
   }
-
 }

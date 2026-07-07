@@ -26,9 +26,6 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
 
     console.group('❌ ERRO HTTP');
     console.log('Status:', error.status);
-    console.log('URL:', error.url);
-    console.log('Mensagem:', error.message);
-    console.log('Erro completo:', error);
     console.groupEnd();
 
       //se o backend nao autorizar

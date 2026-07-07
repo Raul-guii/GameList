@@ -43,6 +43,8 @@
 
 /* ROOT */
 .favorites-root {
+  position: relative;
+  z-index: 1;
   padding: calc(var(--gap) * 1.25);
   min-height: 100vh;
   background-color: #000000;
@@ -124,7 +126,7 @@
   margin: 0;
   font-size: 0.95rem;
   line-height: 1.15;
-  color: var(--text);
+  color: white;
   font-weight: 600;
   overflow-wrap: anywhere;
 }
