@@ -1,5 +1,5 @@
-export interface FavoriteDTO{
-    id: number,
-    user_id: number,
+export interface FavoriteDTO {
+    id: number;
+    userId: number;
     gameId: number;
 }

@@ -1,20 +1,36 @@
-<div class="profile-card">
-  <h2>Editar perfil</h2>
+<div class="edit-card">
+  <div class="edit-header">
+    <button class="back-btn" (click)="cancel()" aria-label="Voltar">
+      <svg viewBox="0 0 24 24" width="18" height="18">
+        <path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </button>
+    <h2>Edit profile</h2>
+  </div>
 
-  <form (ngSubmit)="save()" *ngIf="!loading">
-    <label>Nome</label>
-    <input
-      type="text"
-      [(ngModel)]="name"
-      name="name"
-      required
-    />
+  <p class="state-text" *ngIf="loadingProfile">Loading...</p>
+
+  <form (ngSubmit)="save()" *ngIf="!loadingProfile">
+    <div class="field">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        type="text"
+        [(ngModel)]="name"
+        name="name"
+        required
+      />
+    </div>
+
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 
     <div class="actions">
-      <button type="submit">Salvar</button>
-      <button type="button" (click)="cancel()">Cancelar</button>
+      <button type="button" class="btn-ghost" (click)="cancel()" [disabled]="saving">
+        Cancel
+      </button>
+      <button type="submit" class="btn-primary" [disabled]="saving">
+        {{ saving ? 'Saving...' : 'Save' }}
+      </button>
     </div>
   </form>
-
-  <p *ngIf="loading">Salvando...</p>
 </div>

@@ -1,7 +1,7 @@
 <div class="favorites-root">
 
   <div *ngIf="loading" class="loading">
-    Carregando favoritos...
+    Loading favorites...
   </div>
 
   <div *ngIf="error" class="error">
@@ -9,7 +9,7 @@
   </div>
 
   <div *ngIf="!loading && favorites.length === 0" class="empty">
-    Nenhum jogo favoritado ainda
+    No favorite games yet
   </div>
 
   <div class="grid" *ngIf="favorites.length > 0">
@@ -44,7 +44,7 @@
     (click)="contextMenuVisible = false"
   >
     <button (click)="removeSelectedFavorite()">
-      Remover dos favoritos
+      Remove from favorites
     </button>
   </div>
 

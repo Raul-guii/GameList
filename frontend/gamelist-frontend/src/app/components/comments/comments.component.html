@@ -1,0 +1,74 @@
+<section class="comments">
+
+  <h2>Comments ({{ comments.length }})</h2>
+
+  <div class="new-comment" *ngIf="isLoggedIn; else loginPrompt">
+    <textarea
+      [(ngModel)]="newComment"
+      maxlength="2000"
+      placeholder="Write your opinion...">
+    </textarea>
+
+    <button (click)="createComment()" [disabled]="!newComment.trim()">
+      Post Comment
+    </button>
+  </div>
+
+  <ng-template #loginPrompt>
+    <div class="login-prompt">
+      <p>You need to be logged in to comment.</p>
+      <button (click)="createComment()">Log in to comment</button>
+    </div>
+  </ng-template>
+
+  <div *ngIf="loading">
+    Loading comments...
+  </div>
+
+  <div
+    *ngFor="let comment of comments"
+    class="comment-card">
+
+    <div class="avatar">
+      {{ comment.username ? comment.username.charAt(0).toUpperCase() : '?' }}
+    </div>
+
+    <div class="content">
+
+      <div class="header">
+        <strong>{{ comment.username }}</strong>
+        <span>{{ comment.createdAt | date:'short' }}</span>
+      </div>
+
+      <!-- Modo normal -->
+      <ng-container *ngIf="editingCommentId !== comment.id">
+        <p>{{ comment.content }}</p>
+
+        <div class="actions" *ngIf="isOwner(comment)">
+          <button (click)="startEdit(comment)">Edit</button>
+          <button class="delete" (click)="deleteComment(comment.id)">Delete</button>
+        </div>
+      </ng-container>
+
+      <!-- Modo edição -->
+      <div class="edit-box" *ngIf="editingCommentId === comment.id">
+        <textarea
+          [(ngModel)]="editingText"
+          maxlength="2000">
+        </textarea>
+
+        <div class="edit-actions">
+          <button class="save" (click)="saveEdit(comment.id)" [disabled]="!editingText.trim()">
+            Save
+          </button>
+          <button class="cancel" (click)="cancelEdit()">
+            Cancel
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

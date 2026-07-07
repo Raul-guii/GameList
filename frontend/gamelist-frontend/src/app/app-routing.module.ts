@@ -7,51 +7,57 @@ import { AuthGuard } from './auths/guards/auth.guard';
 import { CleanLayoutComponent } from './layouts/clean-layout/clean-layout.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { FavoriteComponent } from './pages/games/favorite/favorite.component';
-import { ProfileComponent } from './pages/games/profile/profile.component';
 import { ProfileEditComponent } from './pages/games/profile-edit/profile-edit.component';
+import { ProfileComponent } from './pages/games/profile/profile.component';
 
 const routes: Routes = [
 
-{
-  path: '',
-  pathMatch: 'full',
-  redirectTo: 'login'
-},
+  {
+    path: '',
+    pathMatch: 'full',
+    redirectTo: 'games'
+  },
 
-//rotas sem sidebar
-{
-  path: "login",
-  component: CleanLayoutComponent,
-  children: [
-    { path: '', component: LoginComponent }
-  ]
-},
-{
-  path: "register",
-  component: CleanLayoutComponent,
-  children: [
-    { path: '', component: RegisterComponent }
-  ]
-},
+  // rotas sem sidebar
+  {
+    path: 'login',
+    component: CleanLayoutComponent,
+    children: [
+      { path: '', component: LoginComponent }
+    ]
+  },
+  {
+    path: 'register',
+    component: CleanLayoutComponent,
+    children: [
+      { path: '', component: RegisterComponent }
+    ]
+  },
 
-//rotas com sidebar
-{
- path: '',
- component: MainLayoutComponent,
- canActivateChild: [AuthGuard],
- children: [
-   { path: 'games', component: GameListComponent },
-   { path: 'games/:id', component: GameDetailComponent },
-   { path: 'favorites', component: FavoriteComponent }, 
-   { path: 'profile', component: ProfileComponent },
-   { path: 'profile-edit', component: ProfileEditComponent}
- ]
-},
+  // rotas com sidebar, navegação livre (sem exigir login)
+  {
+    path: '',
+    component: MainLayoutComponent,
+    children: [
+      { path: 'games', component: GameListComponent },
+      { path: 'games/:id', component: GameDetailComponent },
+    ]
+  },
 
-//rota padrão
-{
-  path: '**', redirectTo: 'login' 
-}
+  // rotas com sidebar, exigem login
+  {
+    path: '',
+    component: MainLayoutComponent,
+    canActivateChild: [AuthGuard],
+    children: [
+      { path: 'favorites', component: FavoriteComponent },
+      { path: 'profile', component: ProfileComponent },
+      { path: 'profile-edit', component: ProfileEditComponent }
+    ]
+  },
+
+  // rota padrão
+  { path: '**', redirectTo: 'games' }
 ];
 
 export const appRouterProviders = [provideRouter(routes)];

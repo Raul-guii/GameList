@@ -17,6 +17,4 @@ canActivateChild(): boolean | UrlTree {
 
   return true;
 }
-
-
 }

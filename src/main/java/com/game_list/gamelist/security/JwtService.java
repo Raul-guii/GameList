@@ -1,4 +1,4 @@
-package com.game_list.gamelist.service;
+package com.game_list.gamelist.security;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { Route, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { UserDTO } from '../../../models/user.model';
 import { UserService } from '../../../services/user.service';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile.component',
@@ -14,20 +13,25 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
 })
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit {
 
   user?: UserDTO;
   loading = false;
   error = '';
-  newName = '';
 
-   constructor(private userService : UserService, private router: Router, private authService : AuthService, private http : HttpClient){}
+  constructor(
+    private userService: UserService,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   ngOnInit(): void {
     this.loadProfile();
   }
 
-  loadProfile(){
+  loadProfile() {
+    this.loading = true;
+
     this.userService.getProfile().subscribe({
       next: (data) => {
         this.user = data;
@@ -41,25 +45,19 @@ export class ProfileComponent implements OnInit{
     });
   }
 
-  saveName(){
-    this.loading = true;
-
-    this.userService.updateUserName(this.newName).subscribe({
-      next: () => {
-        this.loading = false;
-        alert('Nome atualizado com sucesso!');
-      },
-      error: err => {
-        this.loading = false;
-        console.error(err);
-        alert('Erro ao atualizar nome')
-      }
-    });
+  get initials(): string {
+    if (!this.user?.name) return '?';
+    return this.user.name
+      .trim()
+      .split(/\s+/)
+      .slice(0, 2)
+      .map(part => part[0]?.toUpperCase())
+      .join('');
   }
 
   deactivateAccount() {
     const confirmacao = confirm(
-      'Tem certeza que deseja desativar sua conta?'
+      'Tem certeza que deseja desativar sua conta? Você poderá reativá-la depois entrando em contato com o suporte.'
     );
 
     if (!confirmacao) return;
@@ -67,22 +65,32 @@ export class ProfileComponent implements OnInit{
     this.userService.deactivateAccount().subscribe({
       next: () => {
         alert('Conta desativada com sucesso');
+        this.authService.logout();
         this.router.navigate(['/login']);
+      },
+      error: err => {
+        console.error(err);
+        alert('Erro ao desativar conta');
       }
     });
   }
 
-deleteAccount() {
-  this.userService.deleteAccount().subscribe({
-    next: () => {
-      this.authService.logout(); 
-      this.router.navigate(['/login']);
-    },
-    error: err => {
-      console.error(err);
-    }
-  });
-}
+  deleteAccount() {
+    const confirmacao = confirm(
+      'Tem certeza que deseja excluir sua conta permanentemente? Esta ação não pode ser desfeita.'
+    );
 
+    if (!confirmacao) return;
 
+    this.userService.deleteAccount().subscribe({
+      next: () => {
+        this.authService.logout();
+        this.router.navigate(['/login']);
+      },
+      error: err => {
+        console.error(err);
+        alert('Erro ao excluir conta');
+      }
+    });
+  }
 }

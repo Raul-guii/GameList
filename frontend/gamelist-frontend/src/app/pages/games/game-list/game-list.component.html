@@ -1,13 +1,13 @@
 <div class="game-list-root">
-  <div *ngIf="loading" class="loading">Carregando...</div>
+  <div *ngIf="loading" class="loading">Loading...</div>
   <div *ngIf="error" class="error">{{ error }}</div>
 
   <div class="search-container">
     <input type="text"
     [(ngModel)]="keyword"
-    placeholder="Buscar jogo.."
+    placeholder="Search game.."
     (keyup.enter)="search()">
-    <button (click)="search()">Buscar</button>
+    <button (click)="search()">Search..</button>
   </div>
 
 <div class="games-container">
@@ -15,7 +15,7 @@
     <a *ngFor="let g of games" class="card" [routerLink]="['/games', g.id]"
        role="button"
        tabindex="0"
-       [attr.aria-label]="'Abrir ' + g.name">
+       [attr.aria-label]="'Open ' + g.name">
 
       <div class="cover" aria-hidden="true">
         <img 
@@ -44,6 +44,6 @@
 </div>
 
   <div *ngIf="!loading && !games.length" class="empty">
-    Nenhum jogo encontrado
+    No games found
   </div>
 </div>

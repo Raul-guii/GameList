@@ -1,18 +1,50 @@
-<div *ngIf="loading">Carregando...</div>
-<div *ngIf="error">{{ error }}</div>
+<div class="detail-root">
+  <div *ngIf="loading" class="loading">Loading...</div>
+  <div *ngIf="error" class="error">{{ error }}</div>
 
-<div *ngIf="game">
-    <h2>{{ game.name }}</h2>
-    <img *ngIf="game.coverUrl || game.cover?.url"
-         [src]="getHighResCover(game.coverUrl ?? game.cover?.url)" 
-         alt="{{game.name}}" 
-         width="200"
-         class="cover-image">
-    <button
-         class="favorite-btn"
-         [class.active]="isFavorite"
-         (click)="toggleFavorite()"
-         > ♥ </button>
-    <p><strong>Rating:</strong> {{ game.rating ?? '-' }}</p>
-    <p><strong>Gêneros:</strong> {{ getGenreNames(game) }}</p>
+  <div *ngIf="game && game.id" class="page-content">
+
+    <div class="game-card">
+      <div class="cover-wrap">
+        <img
+          *ngIf="game.coverUrl || game.cover?.url"
+          [src]="getHighResCover(game.coverUrl ?? game.cover?.url)"
+          [alt]="game.name"
+          class="cover-large"
+        />
+      </div>
+
+      <div class="info">
+        <div class="header-row">
+          <h1 class="game-title">{{ game.name }}</h1>
+
+          <button
+            class="favorite-btn"
+            [class.active]="isFavorite"
+            (click)="toggleFavorite()"
+            [attr.aria-label]="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
+          >
+            <svg viewBox="0 0 24 24" width="22" height="22">
+              <path
+                d="M12 20.5c-.2 0-.4-.07-.56-.2C7.7 17.4 3 13.6 3 9.3 3 6.4 5.2 4 8 4c1.5 0 2.9.7 4 1.9C13.1 4.7 14.5 4 16 4c2.8 0 5 2.4 5 5.3 0 4.3-4.7 8.1-8.44 11C12.4 20.43 12.2 20.5 12 20.5Z"
+                [attr.fill]="isFavorite ? 'currentColor' : 'none'"
+                stroke="currentColor"
+                stroke-width="1.6"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="meta-row">
+          <span class="rating" *ngIf="game.rating">{{ game.rating | number:'1.0-0' }}</span>
+          <span class="genre-chip" *ngFor="let g of game.genres">{{ g.name }}</span>
+        </div>
+
+        <p class="summary" *ngIf="game.summary">{{ game.summary }}</p>
+      </div>
+    </div>
+
+    <app-comments [gameExternalId]="game.id"></app-comments>
+
+  </div>
 </div>

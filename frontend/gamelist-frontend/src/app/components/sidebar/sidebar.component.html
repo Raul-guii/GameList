@@ -1,21 +1,46 @@
-<button class="menu-toggle" (click)="onToggle()" aria-label="Abrir/fechar menu">
- <span class="burger" aria-hidden="true">☰</span>
+<button
+  class="menu-toggle"
+  (click)="onToggle()"
+  aria-label="Abrir/fechar menu">
+
+  ☰
+
 </button>
 
-<nav class="sidebar" [class.hidden]="!visible" role="navigation" aria-label="Menu principal">
-    <div class="logo">
+<nav
+  class="sidebar"
+  [class.hidden]="!visible">
 
+  <div>
+
+    <div class="logo">
+      GameList
     </div>
 
     <ul class="menu">
-        <li routerLink="/games" routerLinkActive="active">
-            <i class="icon">🕹️</i> <span>Games</span>
-        </li>
-        <li routerLink="/favorites" routerLinkActive="active">
-            <i class="icon">⭐</i> <span>Favoritos</span>
-        </li>
-        <li routerLink="/profile" routerLinkActive="active">
-            <i class="icon">👤</i> <span>Perfil</span>
-        </li>
+
+      <li routerLink="/games" routerLinkActive="active">
+        <span class="icon">🎮</span>
+        <span>Games</span>
+      </li>
+
+      <li routerLink="/favorites" routerLinkActive="active">
+        <span class="icon">⭐</span>
+        <span>Favorites</span>
+      </li>
+
+      <li routerLink="/profile" routerLinkActive="active">
+        <span class="icon">👤</span>
+        <span>Profile</span>
+      </li>
+
     </ul>
+
+  </div>
+
+  <button class="logout-btn" (click)="logout()">
+    <span>🚪</span>
+    Logout
+  </button>
+
 </nav>

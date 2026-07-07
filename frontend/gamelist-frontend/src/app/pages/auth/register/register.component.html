@@ -3,7 +3,7 @@
 
   <form (ngSubmit)="onSubmit()" #form="ngForm">
     <div class="input-group">
-      <label for="name">Nome</label>
+      <label for="name">Name</label>
       <input
         type="text"
         id="name"
@@ -14,7 +14,7 @@
     </div>
 
     <div class="input-group">
-      <label for="username">Usuário</label>
+      <label for="username">Username</label>
       <input
         type="text"
         id="username"
@@ -36,21 +36,26 @@
     </div>
 
     <div class="input-group">
-      <label for="password">Senha</label>
+      <label for="password">Password</label>
       <input
         type="password"
         id="password"
         name="password"
         [(ngModel)]="user.password"
+        minlength="6"
         required
       />
     </div>
 
-    <button type="submit" [disabled]="form.invalid">Cadastrar</button>
+    <button type="submit" [disabled]="form.invalid || loading">
+      {{ loading ? 'Registering...' : 'Register' }}
+    </button>
+
+    <p *ngIf="errorMessage" class="error">{{ errorMessage }}</p>
 
     <p class="redirect">
-      Já tem conta?
-      <a routerLink="/login">Faça login</a>
+      Already have an account?
+      <a routerLink="/login">Log in</a>
     </p>
   </form>
 </div>

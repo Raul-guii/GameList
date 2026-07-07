@@ -16,7 +16,7 @@ export class MainLayoutComponent {
 
   sidebarVisible = true;
 
-toggleSidebar() {
-  this.sidebarVisible = !this.sidebarVisible;
-}
+  toggleSidebar() {
+    this.sidebarVisible = !this.sidebarVisible;
+  }
 }

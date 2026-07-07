@@ -12,8 +12,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.Instant;
 
+@NoArgsConstructor
+@Getter
+@Setter
 @Entity
 @Table(name = "comments")
 public class Comment {
@@ -23,7 +30,7 @@ public class Comment {
     private Long id;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
     
     @ManyToOne(fetch = FetchType.LAZY)
@@ -35,76 +42,17 @@ public class Comment {
     
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
-    
+
     @Column
-    private Instant updtedAt;
+    private Instant updatedAt;
     
     @PrePersist
     public void onCreate(){
         this.createdAt = Instant.now();
     }
-    
+
     @PreUpdate
     public void onUpdate(){
-        this.updtedAt = Instant.now();
+        this.updatedAt = Instant.now();
     }
-
-    public Comment(Long id, User user, Game game, String content, Instant createdAt, Instant updtedAt) {
-        this.id = id;
-        this.user = user;
-        this.game = game;
-        this.content = content;
-        this.createdAt = createdAt;
-        this.updtedAt = updtedAt;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Game getGame() {
-        return game;
-    }
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Instant getUpdtedAt() {
-        return updtedAt;
-    }
-
-    public void setUpdtedAt(Instant updtedAt) {
-        this.updtedAt = updtedAt;
-    }
-    
-    
 }
