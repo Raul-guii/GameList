@@ -45,9 +45,6 @@ GameList lets users search, favorite, comment on, and organize video games using
 
 ---
 
-Percebi o problema — na seção "Project Structure", a árvore de diretórios perdeu a cerca de código (```), então o Markdown tentou renderizar aquilo como texto normal e quebrou a formatação. Segue a correção:
-markdown## Project Structure (MVC + Angular)
-
 ## Project Structure (MVC + Angular)
 
 ```
