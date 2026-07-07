@@ -21,8 +21,7 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
-    private final GameRepository gameRepository;
-
+    private final GameService gameService;
     /**
      * Cria um comentário em um jogo, identificado pelo externalId da IGDB.
      * Assume que o Game já existe localmente — ou seja, alguém já precisa
@@ -34,9 +33,7 @@ public class CommentService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
-        Game game = gameRepository.findByExternalId(gameExternalId)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "Jogo ainda não está na base local. Favorite ou pesquise o jogo antes de comentar."));
+        Game game = gameService.findOrCreateByExternalId(gameExternalId);
 
         Comment comment = new Comment();
         comment.setUser(user);
