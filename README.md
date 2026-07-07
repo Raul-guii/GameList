@@ -45,6 +45,16 @@ GameList lets users search, favorite, comment on, and organize video games using
 
 ---
 
+## Screenshots
+
+![Screenshot 1](doc/screenshots/img1.png)
+![Screenshot 2](doc/screenshots/img2.png)
+![Screenshot 3](doc/screenshots/img3.png)
+![Screenshot 4](doc/screenshots/img4.png)
+
+---
+
+
 ## Project Structure (MVC + Angular)
 
 ```
@@ -163,6 +173,10 @@ flowchart LR
     B --> C
     B -->|Game data requests| D
 ```
+
+### Data Model
+
+![Class Diagram](doc/diagrams/gamelist-diagram.png)
 
 ---
 
