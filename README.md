@@ -172,6 +172,6 @@ This project was developed as a personal portfolio project. Feel free to use it 
 
 ## Contact
 
-**Raul Guilherme** — [LinkedIn](https://www.linkedin.com/in/raul-guilherme-549030367/) · [GitHub](https://github.com/Raul-guii) · [Email](raulawp460@gmail.com)
+**Raul Guilherme** — [LinkedIn](https://www.linkedin.com/in/raul-guilherme-bezerra-da-silva-/) · [GitHub](https://github.com/Raul-guii) · [Email](raulawp460@gmail.com)
 
 Feel free to reach out if you have questions about this project or want to discuss freelance opportunities.
